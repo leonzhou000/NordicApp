@@ -6,19 +6,34 @@
              mc:Ignorable="d"
              x:Class="NordicApp.Views.CreateRace">
     <ContentPage.Content>
-        <StackLayout>
-            <Editor Text="Race Name"/>
-            <DatePicker Date="2/20/2020"/>
-            <Picker Title="Race Type">
-                <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Freestyle</x:String>
-                    <x:String>Classic</x:String>
-                </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-
-            <Button Text="Submit" BackgroundColor="Green" TextColor="White" Clicked="SubmitPressed"/>
-        </StackLayout>
+        <Grid BackgroundColor="LightBlue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Row="1" Grid.Column="1" BackgroundColor="White">
+                <Editor x:Name="name" Text="Race Name"/>
+                <DatePicker x:Name="date" Date="2/20/2020"/>
+                <Picker x:Name="style" Title="Race Style">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Freestyle</x:String>
+                            <x:String>Classic</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Grid.Column="1">
+                <Button Text="Submit" BackgroundColor="Blue"
+                        TextColor="White" Clicked="SubmitPressed"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

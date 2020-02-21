@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using NordicApp.Views;
 
 namespace NordicApp
 {
@@ -10,7 +11,7 @@ namespace NordicApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new CreateRace();
         }
 
         protected override void OnStart()

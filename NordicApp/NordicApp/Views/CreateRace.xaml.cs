@@ -22,7 +22,7 @@ namespace NordicApp.Views
             /*
              * Pull data from text and upload to database
              */
-            Navigation.PushModalAsync(new CreateRacers());
+            await Navigation.PushModalAsync(new CreateRacers());
         }
     }
 }

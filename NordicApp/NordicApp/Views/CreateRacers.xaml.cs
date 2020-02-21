@@ -26,7 +26,7 @@ namespace NordicApp.Views
         }
         private void DonePressed(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync
+            Navigation.PushModalAsync()
         }
     }
 }
