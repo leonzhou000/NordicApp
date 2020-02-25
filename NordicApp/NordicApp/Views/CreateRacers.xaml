@@ -4,16 +4,17 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="NordicApp.Views.CreateRacers">
+             x:Class="NordicApp.Views.CreateRacers"
+             Title="Add New Racer"
+             Padding="10,20,10,10"
+             BackgroundColor="LightBlue">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="White">
             <Editor Text="First Name"/>
             <Editor Text="Last Name"/>
             <Editor Text="Bib Number"/>
-            <Button Text="Add Racer" Clicked="AddRacer"/>
-            <Button Text="Done" BackgroundColor="LightBlue" Clicked="DoneButton/"/>
-
-
+            <Button x:Name="addRacer" Text="Add Racer" Clicked="addRacer_Clicked"/>
+            <Button x:Name="Done" Text="Done" BackgroundColor="LightBlue" Clicked="Done_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

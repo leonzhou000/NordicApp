@@ -11,7 +11,7 @@ namespace NordicApp
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new CreateRace();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

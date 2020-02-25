@@ -4,12 +4,13 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="NordicApp.Views.CreateRace">
+             x:Class="NordicApp.Views.CreateRace"
+             BackgroundColor="LightBlue" Padding="15, 10, 15, 10">
     <ContentPage.Content>
-        <Grid BackgroundColor="LightBlue">
+        <Grid BackgroundColor="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="8*"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
@@ -18,10 +19,14 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
-            <StackLayout Grid.Row="1" Grid.Column="1" BackgroundColor="White">
-                <Editor x:Name="name" Text="Race Name"/>
-                <DatePicker x:Name="date" Date="2/20/2020"/>
-                <Picker x:Name="style" Title="Race Style">
+            <StackLayout Grid.Row="1" Grid.Column="1">
+                <Label Text="Race Info" FontSize="20" TextColor="Black"/>
+                <Label Text="Race Name:" TextColor="Black"/>
+                <Editor x:Name="raceName" Text="Kings Count"/>
+                <Label Text="Date:" TextColor="Black"/>
+                <DatePicker x:Name="raceDate" Date=""/>
+                <Label Text="Race Style:" TextColor="Black"/>
+                <Picker x:Name="raceStyle" Title="Choose One">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Freestyle</x:String>
@@ -31,8 +36,12 @@
                 </Picker>
             </StackLayout>
             <StackLayout Grid.Row="2" Grid.Column="1">
-                <Button Text="Submit" BackgroundColor="Blue"
-                        TextColor="White" Clicked="SubmitPressed"/>
+                <Button x:Name="SubmitBtm" Text="Submit" BackgroundColor="LightBlue"
+                        TextColor="Black" FontAttributes="Bold" FontSize="15" 
+                        Clicked="SubmitBtm_Clicked"/>
+                <Button x:Name="BackBtm" Text="Back" BackgroundColor="LightBlue" 
+                        TextColor="Black" FontAttributes="Bold" FontSize="15" 
+                        Clicked="BackBtm_Clicked"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

@@ -70,6 +70,9 @@ namespace NordicApp.Models
         [MaxLength(255)]
         public DateTime EndTime { get; set; }
 
+        [MaxLength(255)]
+        public DateTime addDate { get; set; }
+
         public bool Selected { get; set; }
 
         void OnPropertyChanged([CallerMemberName] string propertyName = null)

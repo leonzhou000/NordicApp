@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQLite;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,21 +13,21 @@ namespace NordicApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateRacers : ContentPage
     {
+        private SQLiteAsyncConnection _connection;
+
         public CreateRacers()
         {
             InitializeComponent();
         }
 
-        private void AddRacer(object sender, EventArgs e)
+        private void Done_Clicked(object sender, EventArgs e)
         {
-            /**
-             * Pull data from tables and add to the database
-             * 
-             */
+
         }
-        private void DonePressed(object sender, EventArgs e)
+
+        private void addRacer_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync()
+
         }
     }
 }

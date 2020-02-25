@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using SQLite;
+using NordicApp.Models;
+using NordicApp.Data;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,17 +13,71 @@ namespace NordicApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateRace : ContentPage
     {
+
+        private SQLiteAsyncConnection _connection;
+        private List<Races> _Races;
+        private DateTime SelectRaceDate;
+
         public CreateRace()
         {
             InitializeComponent();
         }
 
-        private async void SubmitPressed(object sender, EventArgs e)
+        private async void Init()
         {
-            /*
-             * Pull data from text and upload to database
-             */
-            await Navigation.PushModalAsync(new CreateRacers());
+            try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
+            catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
+            GetRacesTable();
         }
+
+        private async void GetRacesTable()
+        {
+            try
+            {
+                await _connection.CreateTableAsync<Races>();
+                var races = await _connection.Table<Races>().ToListAsync();
+                _Races = new List<Races>(races);
+            }
+            catch
+            {
+                await DisplayAlert("Error", "Can not find table", "Ok");
+                return;
+            }
+        }
+
+        private bool dateChecker()
+        {
+
+            return true;
+        }
+
+        private bool checkRacesInfo()
+        {
+            foreach(var race in _Races)
+            {
+                if (race.Name == raceName.Text & dateChecker())
+                {
+                    DisplayAlert("Alert","Race already exists","Ok");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        private async void BackBtm_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
+
+        private async void SubmitBtm_Clicked(object sender, EventArgs e)
+        {
+            if (checkRacesInfo())
+            {
+                await Navigation.PushAsync(new DisplayRacers());
+            }
+        }
+
+        
     }
 }

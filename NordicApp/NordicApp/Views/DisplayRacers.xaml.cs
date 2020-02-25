@@ -23,5 +23,20 @@ namespace NordicApp.Views
              *  Transition to the PRELIM round
              */
         }
+
+        private async void addRacer_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CreateRace());
+        }
+
+        private void deleteRacer_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Finshed_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 }
