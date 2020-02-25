@@ -13,8 +13,15 @@
             <Editor Text="First Name"/>
             <Editor Text="Last Name"/>
             <Editor Text="Bib Number"/>
+<<<<<<< Updated upstream
             <Button x:Name="addRacer" Text="Add Racer" Clicked="addRacer_Clicked"/>
             <Button x:Name="Done" Text="Done" BackgroundColor="LightBlue" Clicked="Done_Clicked"/>
+=======
+            <Button Text="Add Racer" Clicked="AddRacer"/>
+            <Button Text="Done" BackgroundColor="LightBlue"/>
+
+
+>>>>>>> Stashed changes
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

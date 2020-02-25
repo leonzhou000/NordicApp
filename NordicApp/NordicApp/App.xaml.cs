@@ -11,7 +11,11 @@ namespace NordicApp
         {
             InitializeComponent();
 
+<<<<<<< Updated upstream
             MainPage = new NavigationPage(new MainPage());
+=======
+            MainPage = new NavigationPage(new CreateRace());
+>>>>>>> Stashed changes
         }
 
         protected override void OnStart()

@@ -27,7 +27,11 @@ namespace NordicApp.Views
 
         private void addRacer_Clicked(object sender, EventArgs e)
         {
+<<<<<<< Updated upstream
 
+=======
+            Navigation.PushModalAsync(new Page());
+>>>>>>> Stashed changes
         }
     }
 }
