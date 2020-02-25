@@ -21,6 +21,7 @@ namespace NordicApp.Views
         public CreateRace()
         {
             InitializeComponent();
+            Init();
         }
 
         private async void Init()
@@ -34,7 +35,6 @@ namespace NordicApp.Views
         {
             try
             {
-                await _connection.CreateTableAsync<Races>();
                 var races = await _connection.Table<Races>().ToListAsync();
                 _Races = new List<Races>(races);
             }
@@ -47,7 +47,6 @@ namespace NordicApp.Views
 
         private bool dateChecker()
         {
-
             return true;
         }
 
