@@ -13,8 +13,8 @@ namespace NordicApp.Droid.Data
     {
         public SQLiteAsyncConnection GetConnection()
         {
-            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var path = Path.Combine(documentsPath, "RaceDb.db3");
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var path = Path.Combine(documentsPath, "SQLiteDB.db3");
 
             return new SQLiteAsyncConnection(path);
         }

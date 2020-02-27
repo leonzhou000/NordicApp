@@ -24,7 +24,7 @@
                 <Label Text="Race Name:" TextColor="Black"/>
                 <Editor x:Name="raceName" Text="Kings Count"/>
                 <Label Text="Date:" TextColor="Black"/>
-                <DatePicker x:Name="raceDate" Date=""/>
+                <DatePicker x:Name="raceDate" DateSelected="raceDate_DateSelected"/>
                 <Label Text="Race Style:" TextColor="Black"/>
                 <Picker x:Name="raceStyle" Title="Choose One">
                     <Picker.ItemsSource>

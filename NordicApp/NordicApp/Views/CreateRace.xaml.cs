@@ -16,7 +16,7 @@ namespace NordicApp.Views
 
         private SQLiteAsyncConnection _connection;
         private List<Races> _Races;
-        private DateTime SelectRaceDate;
+        private DateTime _dateSelected;
 
         public CreateRace()
         {
@@ -26,8 +26,15 @@ namespace NordicApp.Views
 
         private async void Init()
         {
-            try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
-            catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
+            try 
+            {
+                _connection = DependencyService.Get<ISQLiteDb>().GetConnection();
+            }
+            catch
+            { 
+                await DisplayAlert("Error", "SQL Table Connection", "OK"); 
+            }
+            
             GetRacesTable();
         }
 
@@ -45,24 +52,20 @@ namespace NordicApp.Views
             }
         }
 
-        private bool dateChecker()
-        {
-            return true;
-        }
-
         private bool checkRacesInfo()
         {
-            foreach(var race in _Races)
+            if (String.IsNullOrEmpty(raceName.Text))
             {
-                if (race.Name == raceName.Text & dateChecker())
-                {
-                    DisplayAlert("Alert","Race already exists","Ok");
-                    return false;
-                }
+                DisplayAlert("Name Blank","Please Enter a name.","OK");
+                return false;
+            }
+            if (raceStyle.SelectedItem == null)
+            {
+                DisplayAlert("Choose racing style.", "Please Choose a race style.", "OK");
+                return false;
             }
             return true;
         }
-
 
         private async void BackBtm_Clicked(object sender, EventArgs e)
         {
@@ -71,12 +74,37 @@ namespace NordicApp.Views
 
         private async void SubmitBtm_Clicked(object sender, EventArgs e)
         {
+
             if (checkRacesInfo())
             {
-                await Navigation.PushAsync(new DisplayRacers());
+                var race = new Races()
+                {
+                    Name = raceName.Text,
+                    Style = raceStyle.SelectedItem.ToString(),
+                    addDate = _dateSelected,
+                    Prelimary = false,
+                    roundOne = false,
+                    roundTwo = false,
+                    roundThree = false,
+                    Final = false,
+                    Selected = false
+                };
+                try
+                {
+                    await _connection.InsertAsync(race);
+                }
+                catch
+                {
+                    await DisplayAlert("Error","Failed to add item to table","OK");
+                }
+                await Navigation.PushAsync(new DisplayRacers(race));
             }
+            
         }
 
-        
+        private void raceDate_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            _dateSelected = e.NewDate;
+        }
     }
 }

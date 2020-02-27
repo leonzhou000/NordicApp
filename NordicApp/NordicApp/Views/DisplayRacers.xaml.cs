@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NordicApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace NordicApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DisplayRacers : ContentPage
     {
-        public DisplayRacers()
+        public DisplayRacers(Races race)
         {
             InitializeComponent();
         }
@@ -20,13 +21,13 @@ namespace NordicApp.Views
         private void StartRace(object sender, EventArgs e)
         {
             /*
-             *  Transition to the PRELIM round
+             *  Transition to the PRELIM round  
              */
         }
 
         private async void addRacer_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new CreateRace());
+            await Navigation.PushAsync(new CreateRacers());
         }
 
         private void deleteRacer_Clicked(object sender, EventArgs e)

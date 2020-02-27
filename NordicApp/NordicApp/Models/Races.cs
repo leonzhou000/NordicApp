@@ -32,7 +32,6 @@ namespace NordicApp.Models
 
         private string _style;
 
-        [MaxLength(255)]
         public string Style
         {
             get { return _style; }
@@ -46,9 +45,17 @@ namespace NordicApp.Models
             }
         }
 
-
-        [MaxLength(255)]
         public DateTime addDate { get; set; }
+
+        public bool Prelimary { get; set; }
+
+        public bool roundOne { get; set; }
+        
+        public bool roundTwo { get; set; }
+        
+        public bool roundThree { get; set; }
+        
+        public bool Final { get; set; }
 
         public bool Selected { get; set; }
 
