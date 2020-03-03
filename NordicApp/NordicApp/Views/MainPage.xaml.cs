@@ -88,9 +88,18 @@ namespace NordicApp.Views
             }
         }
 
-        private void raceRecord_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void raceRecord_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            //DisplayAlert("Alert","Your race is incomplete.\nWould you like to continue race?","OK");
+            _selectedRace = raceRecord.SelectedItem as Races;
+            var choose = await DisplayAlert("Alert","Your race is incomplete.\nWould you like to continue race?","Yes", "No");
+            if (choose)
+            {
+                await Navigation.PushAsync(new DisplayRacers(_selectedRace));
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }

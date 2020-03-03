@@ -56,16 +56,6 @@ namespace NordicApp.Views
             return Int32.Parse(bibNumber.Text);
         }
 
-        private async void Done_Clicked(object sender, EventArgs e)
-        {
-            var done = await DisplayAlert("Racer Added", "Are you finished", "Yes", "No");
-            if (done)
-            {
-                await Navigation.PopAsync();
-            }
-            return;
-        }
-
         private async void addRacer_Clicked(object sender, EventArgs e)
         {
             if (infoChecker())
@@ -89,6 +79,19 @@ namespace NordicApp.Views
                 catch
                 {
                     await DisplayAlert("ERROR","Failed to add Racer.","OK");
+                    return;
+                }
+                var done = await DisplayAlert("Racer Added", "Are you finished", "Yes", "No");
+                if (done)
+                {
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    firstName.Text = "";
+                    lastName.Text = "";
+                    Group.Text = "";
+                    bibNumber.Text = "";
                     return;
                 }
             }

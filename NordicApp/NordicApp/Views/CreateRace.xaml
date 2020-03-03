@@ -16,7 +16,7 @@
             <StackLayout Grid.Row="0">
                 <Label Text="Race Info" FontSize="20" TextColor="Black"/>
                 <Label Text="Race Name:" TextColor="Black"/>
-                <Editor x:Name="raceName" Text="Kings Count"/>
+                <Editor x:Name="raceName" Placeholder="Kings Count"/>
                 <Label Text="Date:" TextColor="Black"/>
                 <DatePicker x:Name="raceDate" DateSelected="raceDate_DateSelected"/>
                 <Label Text="Race Style:" TextColor="Black"/>

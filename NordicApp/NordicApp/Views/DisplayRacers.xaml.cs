@@ -55,7 +55,8 @@ namespace NordicApp.Views
             {
                 var table = await _connection.Table<Racers>().ToListAsync();
                 var racers = from people in table
-                             where people.dataset == _raceInfo.Id
+                             where people.dataset == _raceInfo.Id 
+                             orderby people.Number ascending
                              select people;
                 return new ObservableCollection<Racers>(racers);
             }

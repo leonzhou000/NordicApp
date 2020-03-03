@@ -64,6 +64,21 @@ namespace NordicApp.Models
             }
         }
 
+        private int _heatNumber;
+
+        public int heatNumber
+        {
+            get { return _heatNumber; }
+            set
+            {
+                if (_heatNumber == value) { return; }
+                _heatNumber = value;
+
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(heatNumber));
+            }
+        }
+
         public bool started { get; set; }
 
         public bool finished { get; set; }
