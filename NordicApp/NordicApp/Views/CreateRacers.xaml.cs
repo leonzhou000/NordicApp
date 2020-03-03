@@ -20,12 +20,13 @@ namespace NordicApp.Views
 
         public CreateRacers(Races race)
         {
-            Init();
+            Init(race);
             InitializeComponent();
         }
 
-        private async void Init()
+        private async void Init(Races race)
         {
+            _raceInfo = race;
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
         }
@@ -57,28 +58,38 @@ namespace NordicApp.Views
 
         private async void Done_Clicked(object sender, EventArgs e)
         {
+            var done = await DisplayAlert("Racer Added", "Are you finished", "Yes", "No");
+            if (done)
+            {
+                await Navigation.PopAsync();
+            }
+            return;
+        }
+
+        private async void addRacer_Clicked(object sender, EventArgs e)
+        {
             if (infoChecker())
             {
-                var racer = new Racers()
-                {
-                    Fname = firstName.Text,
-                    Lname = lastName.Text,
-                    bibNumber = getBibNumber(),
-                    dataset = _raceInfo.Id,
-                    Selected = false
-                };
                 try
                 {
+                    await _connection.CreateTableAsync<Racers>();
+                    var racer = new Racers()
+                    {
+                        Fname = firstName.Text,
+                        Lname = lastName.Text,
+                        Number = getBibNumber(),
+                        ageGroup = Group.Text,
+                        dataset = _raceInfo.Id,
+                        started = false,
+                        finished = false,
+                        Selected = false
+                    };
                     await _connection.InsertAsync(racer);
                 }
                 catch
                 {
-                    await DisplayAlert("Error", "Failed to add racer", "OK");
-                }                
-                var done = await DisplayAlert("Racer Added", "Are you finished", "Yes", "No");
-                if (done)
-                {
-                    await Navigation.PopModalAsync();
+                    await DisplayAlert("ERROR","Failed to add Racer.","OK");
+                    return;
                 }
             }
             return;

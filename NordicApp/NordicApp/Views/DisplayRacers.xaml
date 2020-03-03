@@ -9,25 +9,40 @@
              Padding="10,20,10,10"
              BackgroundColor="LightBlue">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="addRace" IconImageSource="add.png" Text="New Race" Clicked="addRacer_Clicked"/>
-        <ToolbarItem x:Name="deleteRace" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked"/>
+        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Race" Clicked="addRacer_Clicked"/>
+        <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked"/>
+        <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid BackgroundColor="White">
+        <Grid BackgroundColor="White" Padding="10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <StackLayout Grid.Row="0" Padding="10,10,0,0">
-                <Label Text="Racers:" FontSize="18" TextColor="Black"/>
-            </StackLayout>
-            <ScrollView>
-                
+            <Label Text="Racers" Grid.Column="0" Grid.Row="0" FontSize="18" TextColor="Black"/>
+            <Label Text="Time:" Grid.Column="1" Grid.Row="0" FontSize="18" TextColor="Black"/>
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
+                <ListView x:Name="racersList" ItemTapped="racer_View_ItemTapped" ItemSelected="racer_View_ItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" Padding="5">
+                                    <Label Text="{Binding Number}"/>
+                                    <Label Text="{Binding Lname}"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </ScrollView>
-            <StackLayout>
-                <Button x:Name="Finshed" Grid.Row="2" Text="Done" Clicked="Finshed_Clicked"/>
-            </StackLayout>
+            <Button x:Name="Start_time" Grid.Row="2" Grid.Column="0" Text="Start"  BackgroundColor="LightGreen"
+                    FontSize="15" FontAttributes="Bold" Clicked="Start_time_Clicked"/>
+            <Button x:Name="Stop_time" Grid.Row="2" Grid.Column="1" Text="Stop" BackgroundColor="LightPink"
+                    FontSize="15" FontAttributes="Bold" Clicked="Stop_time_Clicked"/>
+            <Button x:Name="Finshed" Grid.Row="3" Grid.ColumnSpan="2" Text="Done" BackgroundColor="LightBlue"
+                    FontSize="15" FontAttributes="Bold" Clicked="Finshed_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

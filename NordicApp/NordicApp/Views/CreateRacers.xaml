@@ -13,16 +13,20 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <StackLayout Grid.Row="0">
                 <Label Text="First Name" FontSize="15" TextColor="Black"/>
                 <Editor x:Name="firstName" Placeholder="ie. (Jon)"/>
                 <Label Text="Last Name" FontSize="15" TextColor="Black"/>
                 <Editor x:Name="lastName" Placeholder="ie. (Hank)"/>
+                <Label Text="Age Group" FontSize="15" TextColor="Black"/>
+                <Editor x:Name="Group" Placeholder=""/>
                 <Label Text="Bib Number" FontSize="15" TextColor="Black"/>
                 <Editor x:Name="bibNumber" Placeholder="ie. (35)" Keyboard="Numeric"/>
             </StackLayout>
-            <Button x:Name="Done" Grid.Row="1" Text="Done" BackgroundColor="LightBlue" Clicked="Done_Clicked"/>
+            <Button x:Name="addRacer" Grid.Row="1" Text="Add racer" BackgroundColor="LightBlue" Clicked="addRacer_Clicked"/>
+            <Button x:Name="Done" Grid.Row="2" Text="Done" BackgroundColor="LightBlue" Clicked="Done_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

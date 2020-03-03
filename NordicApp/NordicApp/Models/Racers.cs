@@ -46,7 +46,7 @@ namespace NordicApp.Models
             }
         }
 
-        public int bibNumber;
+        public int Number { get; set; }
 
         private string _ageGroup;
 
@@ -64,10 +64,12 @@ namespace NordicApp.Models
             }
         }
 
-        [MaxLength(255)]
+        public bool started { get; set; }
+
+        public bool finished { get; set; }
+
         public DateTime StartTime { get; set; }
 
-        [MaxLength(255)]
         public DateTime EndTime { get; set; }
 
         public int dataset { get; set; }

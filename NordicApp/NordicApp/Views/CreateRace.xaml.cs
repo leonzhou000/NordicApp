@@ -96,10 +96,10 @@ namespace NordicApp.Views
                 catch
                 {
                     await DisplayAlert("Error","Failed to add item to table","OK");
+                    return;
                 }
                 await Navigation.PushAsync(new DisplayRacers(race));
             }
-            
         }
 
         private void raceDate_DateSelected(object sender, DateChangedEventArgs e)

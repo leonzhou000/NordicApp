@@ -17,8 +17,9 @@ namespace NordicApp.Views
     public partial class DisplayRacers : ContentPage
     {
         private SQLiteAsyncConnection _connection;
-        private ObservableCollection<Racers> _races;
+        private ObservableCollection<Racers> _racers;
         private Races _raceInfo;
+        private Racers _selectedRacer;
 
         public DisplayRacers(Races race)
         {
@@ -38,8 +39,8 @@ namespace NordicApp.Views
             try
             {
                 await _connection.CreateTableAsync<Racers>();
-                _races = await getRaces();
-                
+                _racers = await getRaces();
+                racersList.ItemsSource = _racers;
             }
             catch
             {
@@ -61,8 +62,8 @@ namespace NordicApp.Views
             catch
             {
                 await DisplayAlert("Error", "Cannot find table.", "OK");
+                return null;
             }
-            return null;
         }
 
         private async void addRacer_Clicked(object sender, EventArgs e)
@@ -70,12 +71,52 @@ namespace NordicApp.Views
             await Navigation.PushAsync(new CreateRacers(_raceInfo));
         }
 
-        private void deleteRacer_Clicked(object sender, EventArgs e)
+        private async void deleteRacer_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var racer = racersList.SelectedItem as Racers;
+                if (racer == null)
+                {
+                    await DisplayAlert("Alert", "No item selected", "OK");
+                    return;
+                }
+                await _connection.DeleteAsync(racer);
+                _racers.Remove(racer);
+            }
+            catch
+            {
+                await DisplayAlert("Error", "Fail to delete race.", "OK");
+                return;
+            }
+        }
+
+        private void Finshed_Clicked(object sender, EventArgs e)
         {
 
         }
 
-        private void Finshed_Clicked(object sender, EventArgs e)
+        private void racer_View_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            
+        }
+
+        private void racer_View_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
+        private void modifyRacer_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Start_time_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Stop_time_Clicked(object sender, EventArgs e)
         {
 
         }
