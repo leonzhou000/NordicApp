@@ -20,6 +20,7 @@ namespace NordicApp.Views
     {
         private SQLiteAsyncConnection _connection;
         private ObservableCollection<Races> _races;
+        private Races _selectedRace;
 
         public MainPage()
         {

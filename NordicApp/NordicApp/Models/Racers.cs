@@ -70,9 +70,6 @@ namespace NordicApp.Models
         [MaxLength(255)]
         public DateTime EndTime { get; set; }
 
-        [MaxLength(255)]
-        public DateTime addDate { get; set; }
-
         public int dataset { get; set; }
 
         public bool Selected { get; set; }
