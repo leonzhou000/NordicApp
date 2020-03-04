@@ -49,6 +49,11 @@ namespace NordicApp.Views
             base.OnAppearing();
         }
 
+        private bool raceCompletion()
+        {
+            return false;
+        }
+
         private async Task<ObservableCollection<Races>> getRaces()
         {
             try
