@@ -22,8 +22,11 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             <Label Text="Racers" Grid.Column="0" Grid.Row="0" FontSize="18" TextColor="Black"/>
-            <Label Text="Time:" Grid.Column="1" Grid.Row="0" FontSize="18" TextColor="Black"/>
-            <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Grid.Column="2" Grid.Row="0">
+                <Label Text="Time:" FontSize="18" TextColor="Black"/>
+                <Label x:Name="timer" Text="" FontSize="18" TextColor="Black"/>
+            </StackLayout>
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView x:Name="racersList" ItemTapped="racer_View_ItemTapped" ItemSelected="racer_View_ItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -39,9 +42,11 @@
             </ScrollView>
             <Button x:Name="Start_time" Grid.Row="2" Grid.Column="0" Text="Start"  BackgroundColor="LightGreen"
                     FontSize="15" FontAttributes="Bold" Clicked="Start_time_Clicked"/>
-            <Button x:Name="Stop_time" Grid.Row="2" Grid.Column="1" Text="Stop" BackgroundColor="LightPink"
+            <Button x:Name="Reset_time" Grid.Row="2" Grid.Column="1" Text="Reset" BackgroundColor="LightGray"
+                    FontSize="15" FontAttributes="Bold" Clicked="Reset_time_Clicked"/>
+            <Button x:Name="Stop_time" Grid.Row="2" Grid.Column="2" Text="Stop" BackgroundColor="LightPink"
                     FontSize="15" FontAttributes="Bold" Clicked="Stop_time_Clicked"/>
-            <Button x:Name="Finshed" Grid.Row="3" Grid.ColumnSpan="2" Text="Done" BackgroundColor="LightBlue"
+            <Button x:Name="Finshed" Grid.Row="3" Grid.ColumnSpan="3" Text="Done" BackgroundColor="LightBlue"
                     FontSize="15" FontAttributes="Bold" Clicked="Finshed_Clicked"/>
         </Grid>
     </ContentPage.Content>

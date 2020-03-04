@@ -1,5 +1,6 @@
 ﻿using NordicApp.Models;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,16 +21,19 @@ namespace NordicApp.Views
         private ObservableCollection<Racers> _racers;
         private Races _raceInfo;
         private Racers _selectedRacer;
+        Stopwatch _stopwatch;
 
         public DisplayRacers(Races race)
         {
             _raceInfo = race;
-            Init();
             InitializeComponent();
+            Init();
         }
 
         private async void Init()
         {
+            _stopwatch = new Stopwatch();
+            timer.Text = "00:00";
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
         }
@@ -114,12 +118,22 @@ namespace NordicApp.Views
 
         private void Start_time_Clicked(object sender, EventArgs e)
         {
-
+            _stopwatch.Start();
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                timer.Text = _stopwatch.Elapsed.ToString("mm\\:ss");
+                return true;
+            });
         }
 
         private void Stop_time_Clicked(object sender, EventArgs e)
         {
+            _stopwatch.Stop();
+        }
 
+        private void Reset_time_Clicked(object sender, EventArgs e)
+        {
+            _stopwatch.Restart();
         }
     }
 }

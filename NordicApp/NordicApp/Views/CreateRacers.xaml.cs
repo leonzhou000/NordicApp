@@ -18,6 +18,7 @@ namespace NordicApp.Views
         private SQLiteAsyncConnection _connection;
         private Races _raceInfo;
 
+
         public CreateRacers(Races race)
         {
             Init(race);
