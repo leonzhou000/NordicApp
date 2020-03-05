@@ -83,9 +83,9 @@ namespace NordicApp.Models
 
         public bool finished { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public TimeSpan StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public TimeSpan EndTime { get; set; }
 
         public int dataset { get; set; }
 

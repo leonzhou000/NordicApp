@@ -7,7 +7,7 @@
              x:Class="NordicApp.Views.DisplayRacers"
              Title="Prelimary Round"
              Padding="10,20,10,10"
-             BackgroundColor="LightBlue">
+             BackgroundColor="LightBlue"> 
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Race" Clicked="addRacer_Clicked"/>
         <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked"/>
@@ -27,14 +27,16 @@
                 <Label x:Name="timer" Text="" FontSize="18" TextColor="Black"/>
             </StackLayout>
             <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
-                <ListView x:Name="racersList" ItemTapped="racer_View_ItemTapped" ItemSelected="racer_View_ItemSelected">
+                <ListView x:Name="racersList" ItemTapped="racer_View_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal" Padding="5">
-                                    <Label Text="{Binding Number}"/>
-                                    <Label Text="{Binding Lname}"/>
-                                </StackLayout>
+                                <Grid>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}"/>
+                                    <Label Grid.Column="2" Text="{Binding StartTime, StringFormat='Start {0:hh\\:mm\\:ss}'}"/>
+                                    <Label Grid.Column="3" Text="{Binding EndTime, StringFormat='End {0:hh\\:mm\\:ss}'}"/>
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
