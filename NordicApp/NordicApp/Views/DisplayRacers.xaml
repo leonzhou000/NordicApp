@@ -22,7 +22,8 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             <Label Text="Racers" Grid.Column="0" Grid.Row="0" FontSize="18" TextColor="Black"/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Grid.Column="2" Grid.Row="0">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand"  
+                         Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
                 <Label Text="Time:" FontSize="18" TextColor="Black"/>
                 <Label x:Name="timer" Text="" FontSize="18" TextColor="Black"/>
             </StackLayout>
@@ -32,6 +33,12 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}"/>
                                     <Label Grid.Column="1" Text="{Binding Lname}"/>
                                     <Label Grid.Column="2" Text="{Binding StartTime, StringFormat='Start {0:hh\\:mm\\:ss}'}"/>
