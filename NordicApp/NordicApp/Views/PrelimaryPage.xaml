@@ -4,14 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="NordicApp.Views.DisplayRacers"
+             x:Class="NordicApp.Views.PrelimaryPage"
              Title="Prelimary Round"
              Padding="10,20,10,10"
-             BackgroundColor="LightBlue"> 
+             BackgroundColor="LightBlue"
+             NavigationPage.HasBackButton="false"> 
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Race" Clicked="addRacer_Clicked"/>
-        <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked"/>
-        <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked"/>
+        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Race" Clicked="addRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid BackgroundColor="White" Padding="10">

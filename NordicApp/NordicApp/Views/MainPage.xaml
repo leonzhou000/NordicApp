@@ -8,8 +8,8 @@
              BackgroundColor="LightBlue"
              Padding="15, 10, 15, 10">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="addRace" Text="New Race" IconImageSource="add.png" Clicked="addRace_Clicked" />
-        <ToolbarItem x:Name="rmRace" Text="Remove Race" IconImageSource="minus.png" Clicked="rmRace_Clicked"/> 
+        <ToolbarItem x:Name="addRace" Text="New Race" IconImageSource="add.png" Clicked="addRace_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="rmRace" Text="Remove Race" IconImageSource="minus.png" Clicked="rmRace_Clicked" Order="Secondary"/> 
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid BackgroundColor="White">

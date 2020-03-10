@@ -24,8 +24,8 @@ namespace NordicApp.Views
 
         public MainPage()
         {
-            Init();
             InitializeComponent();
+            Init();
         }
 
         private async void Init()
@@ -49,9 +49,9 @@ namespace NordicApp.Views
             base.OnAppearing();
         }
 
-        private bool raceCompletion()
+        protected override bool OnBackButtonPressed()
         {
-            return false;
+            return true;
         }
 
         private async Task<ObservableCollection<Races>> getRaces()
@@ -99,7 +99,7 @@ namespace NordicApp.Views
             var choose = await DisplayAlert("Alert","Your race is incomplete.\nWould you like to continue race?","Yes", "No");
             if (choose)
             {
-                await Navigation.PushAsync(new DisplayRacers(_selectedRace));
+                
             }
             else
             {
