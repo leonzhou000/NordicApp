@@ -83,6 +83,8 @@ namespace NordicApp.Models
 
         public bool finished { get; set; }
 
+        public bool disqualified { get; set; }
+
         public TimeSpan StartTime { get; set; }
 
         public TimeSpan EndTime { get; set; }

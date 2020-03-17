@@ -5,10 +5,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="NordicApp.Views.RoundPage"
-             Title="Round One">
+             Title="Round One"
+             Padding="10, 20, 10, 10"
+             BackgroundColor="LightBlue">
     <ContentPage.Content>
-        <Grid>
-            
+        <Grid BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="1">
+                <ListView x:Name="RaceGroup">
+                    
+                </ListView>
+            </ScrollView>
+            <Button x:Name="finishBtm" Text="Done" Grid.Row="2" Clicked="finishBtm_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

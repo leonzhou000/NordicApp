@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NordicApp.Data;
 using NordicApp.Models;
 using SQLite;
@@ -21,8 +17,8 @@ namespace NordicApp.Views
 
         public CreateRacers(Races race)
         {
-            Init(race);
             InitializeComponent();
+            Init(race);
         }
 
         private async void Init(Races race)
