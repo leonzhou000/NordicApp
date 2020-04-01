@@ -79,15 +79,41 @@ namespace NordicApp.Models
             }
         }
 
-        public bool started { get; set; }
+        public int roundOnePlacement { get; set; }
+        
+        public int roundTwoPlacement { get; set; }
+        
+        public int roundThreePlacement { get; set; }
 
-        public bool finished { get; set; }
+        public int roundFinalPlacement { get; set; }
+
+        public bool premlStarted { get; set; }
+
+        public bool premlFinished { get; set; }
+
+        public bool roundOneStart { get; set; }
+
+        public bool roundOneFinish { get; set; }
+
+        public bool roundTwoStart { get; set; }
+
+        public bool roundTwoFinsh { get; set; }
+
+        public bool roundThreeStart { get; set; }
+
+        public bool roundThreeFinsh { get; set; }
+
+        public bool roundFinalStart { get; set; }
+        
+        public bool roundFinalEnd { get; set; }
 
         public bool disqualified { get; set; }
 
         public TimeSpan StartTime { get; set; }
 
         public TimeSpan EndTime { get; set; }
+
+        public TimeSpan ElapsedTime { get; set; }
 
         public int dataset { get; set; }
 

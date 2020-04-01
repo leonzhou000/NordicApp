@@ -16,7 +16,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="1">
-                <ListView x:Name="RaceGroup">
+                <ListView x:Name="ViewHeats">
                     
                 </ListView>
             </ScrollView>

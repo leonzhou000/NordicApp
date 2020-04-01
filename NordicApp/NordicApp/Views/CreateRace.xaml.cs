@@ -32,7 +32,7 @@ namespace NordicApp.Views
             }
             catch
             { 
-                await DisplayAlert("Error", "SQL Table Connection", "OK"); 
+                await DisplayAlert("Error", "SQL Table Connection.", "OK"); 
             }
             
             GetRacesTable();

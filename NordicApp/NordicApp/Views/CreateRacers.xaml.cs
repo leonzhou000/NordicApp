@@ -67,8 +67,17 @@ namespace NordicApp.Views
                         Number = getBibNumber(),
                         ageGroup = Group.Text,
                         dataset = _raceInfo.Id,
-                        started = false,
-                        finished = false,
+                        premlStarted = false,
+                        premlFinished = false,
+                        roundOneStart = false,
+                        roundOneFinish = false,
+                        roundTwoStart = false,
+                        roundTwoFinsh = false,
+                        roundThreeStart = false,
+                        roundThreeFinsh = false,
+                        roundFinalStart = false,
+                        roundFinalEnd = false,
+                        disqualified = false,
                         Selected = false
                     };
                     await _connection.InsertAsync(racer);

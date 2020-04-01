@@ -26,7 +26,6 @@ namespace NordicApp.Views
 
         public PrelimaryPage(Races race)
         {
-            
             InitializeComponent();
             Init(race);
         }
@@ -78,6 +77,36 @@ namespace NordicApp.Views
             }
         }
 
+        private TimeSpan getElapsedTime(Racers racer)
+        {
+            return racer.EndTime.Subtract(racer.StartTime);
+        }
+
+        private TimeSpan RecordTime()
+        {
+            return _stopwatch.Elapsed;
+        }
+
+        private async void UpdateInfo(Racers racer)
+        {
+            await _connection.UpdateAsync(racer);
+            _racers = await getRaces();
+            racersList.ItemsSource = _racers;
+            racersList.SelectedItem = null;
+        }
+
+        private async void checkRacerStatus()
+        {
+            foreach (Racers racer in _racers)
+            {
+                if (racer.EndTime == null)
+                {
+                    racer.disqualified = true;
+                    await _connection.UpdateAsync(racer);
+                }
+            }
+        }
+
         private void modifyRacer_Clicked(object sender, EventArgs e)
         {
 
@@ -115,7 +144,7 @@ namespace NordicApp.Views
             {
                 if (_selectedRacer == null)
                 {
-                    await DisplayAlert("Alert", "No item selected", "OK");
+                    await DisplayAlert("Alert", "No item selected.", "OK");
                     return;
                 }
                 await _connection.DeleteAsync(_selectedRacer);
@@ -143,6 +172,8 @@ namespace NordicApp.Views
 
         private async void Finshed_Clicked(object sender, EventArgs e)
         {
+            _stopwatch.Stop();
+            checkRacerStatus();
             var choose = await DisplayAlert("Finish.", "Are you done with the Prelimary Round?", "Yes", "No");
             if (choose)
             {
@@ -156,29 +187,22 @@ namespace NordicApp.Views
             }
         }
 
-        private async void racer_View_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void racer_View_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             _selectedRacer = racersList.SelectedItem as Racers;
-            if ( _selectedRacer.started == false && _selectedRacer.finished == false && _stopwatch.IsRunning)
+            if ( _selectedRacer.premlStarted == false && _selectedRacer.premlFinished == false && _stopwatch.IsRunning)
             {
-                TimeSpan startTime = _stopwatch.Elapsed;
-                _selectedRacer.StartTime = startTime;
-                _selectedRacer.started = true;
-                await _connection.UpdateAsync(_selectedRacer);
-                _racers = await getRaces();
-                racersList.ItemsSource = _racers;
-                racersList.SelectedItem = null;
+                _selectedRacer.StartTime = RecordTime();
+                _selectedRacer.premlStarted = true;
+                UpdateInfo(_selectedRacer);
                 return;
             }
-            if ( _selectedRacer.finished == false && _selectedRacer.started == true)
+            if ( _selectedRacer.premlFinished == false && _selectedRacer.premlStarted == true)
             {
-                TimeSpan endTime = _stopwatch.Elapsed;
-                _selectedRacer.EndTime = endTime;
-                _selectedRacer.finished = true;
-                await _connection.UpdateAsync(_selectedRacer);
-                _racers = await getRaces();
-                racersList.ItemsSource = _racers;
-                racersList.SelectedItem = null;
+                _selectedRacer.EndTime = RecordTime();
+                _selectedRacer.premlFinished = true;
+                _selectedRacer.ElapsedTime = getElapsedTime(_selectedRacer);
+                UpdateInfo(_selectedRacer);
                 return;
             }
             racersList.SelectedItem = null;
