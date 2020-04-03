@@ -19,8 +19,8 @@ namespace NordicApp.Views
     public partial class MainPage : ContentPage
     {
         private SQLiteAsyncConnection _connection;
-        private ObservableCollection<Races> _races;
-        private Races _selectedRace;
+        private ObservableCollection<Race> _races;
+        private Race _selectedRace;
 
         public MainPage()
         {
@@ -34,11 +34,24 @@ namespace NordicApp.Views
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
         }
 
+        private async void CheckRaceStatus(Race race)
+        {
+            if (race.Prelimary == false)
+            {
+                await Navigation.PushAsync(new PrelimaryPage(race));
+            }
+            else if( race.roundOne == false || race.roundTwo == false ||
+                race.roundThree == false || race.Final == false)
+            {
+                await Navigation.PushAsync(new RoundPage(race));
+            }
+        }
+
         protected override async void OnAppearing()
         {
             try
             {
-                await _connection.CreateTableAsync<Races>();
+                await _connection.CreateTableAsync<Race>();
                 _races = await getRaces();
                 raceRecord.ItemsSource = _races;
             }
@@ -54,12 +67,12 @@ namespace NordicApp.Views
             return true;
         }
 
-        private async Task<ObservableCollection<Races>> getRaces()
+        private async Task<ObservableCollection<Race>> getRaces()
         {
             try
             {
-                var racelist = await _connection.Table<Races>().ToListAsync();
-                return new ObservableCollection<Races>(racelist);
+                var racelist = await _connection.Table<Race>().ToListAsync();
+                return new ObservableCollection<Race>(racelist);
             }
             catch
             {
@@ -77,7 +90,7 @@ namespace NordicApp.Views
         {
             try
             {
-                var race = raceRecord.SelectedItem as Races;
+                var race = raceRecord.SelectedItem as Race;
                 if(race == null)
                 {
                     await DisplayAlert("Alert", "No item selected", "OK");
@@ -95,11 +108,11 @@ namespace NordicApp.Views
 
         private async void raceRecord_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            _selectedRace = raceRecord.SelectedItem as Races;
+            _selectedRace = raceRecord.SelectedItem as Race;
             var choose = await DisplayAlert("Alert","Your race is incomplete.\nWould you like to continue race?","Yes", "No");
             if (choose)
             {
-                
+                CheckRaceStatus(_selectedRace);
             }
             else
             {

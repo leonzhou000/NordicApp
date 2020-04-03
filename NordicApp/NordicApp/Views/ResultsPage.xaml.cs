@@ -18,7 +18,7 @@ namespace NordicApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ResultsPage : ContentPage
     {
-        public ResultsPage(Races race)
+        public ResultsPage(Race race)
         {
             InitializeComponent();
         }

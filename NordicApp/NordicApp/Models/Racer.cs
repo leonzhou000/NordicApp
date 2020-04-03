@@ -4,10 +4,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace NordicApp.Models
 {
-    public class Racers : INotifyPropertyChanged
+    class RacerGroups : ObservableCollection<Racer>
+    {
+        public string Title { get; set; }
+        public string ShortTitle { get; set; }
+
+        public RacerGroups(string title, string shortTitle)
+        {
+            Title = title;
+            ShortTitle = shortTitle;
+        }
+    }
+
+    public class Racer : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -76,6 +89,21 @@ namespace NordicApp.Models
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(heatNumber));
+            }
+        }
+
+        private string _gender;
+
+        public string gender
+        {
+            get { return _gender; }
+            set
+            {
+                if (_gender == value) { return; }
+                _gender = value;
+
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(_gender));
             }
         }
 

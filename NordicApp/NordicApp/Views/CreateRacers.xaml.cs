@@ -12,16 +12,16 @@ namespace NordicApp.Views
     public partial class CreateRacers : ContentPage
     {
         private SQLiteAsyncConnection _connection;
-        private Races _raceInfo;
+        private Race _raceInfo;
 
 
-        public CreateRacers(Races race)
+        public CreateRacers(Race race)
         {
             InitializeComponent();
             Init(race);
         }
 
-        private async void Init(Races race)
+        private async void Init(Race race)
         {
             _raceInfo = race;
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
@@ -59,8 +59,8 @@ namespace NordicApp.Views
             {
                 try
                 {
-                    await _connection.CreateTableAsync<Racers>();
-                    var racer = new Racers()
+                    await _connection.CreateTableAsync<Racer>();
+                    var racer = new Racer()
                     {
                         Fname = firstName.Text,
                         Lname = lastName.Text,

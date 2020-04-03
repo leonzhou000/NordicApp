@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace NordicApp.Models
 {
-    public class Races : INotifyPropertyChanged
+    public class Race : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         

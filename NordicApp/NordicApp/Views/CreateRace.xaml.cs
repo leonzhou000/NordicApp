@@ -15,7 +15,7 @@ namespace NordicApp.Views
     {
 
         private SQLiteAsyncConnection _connection;
-        private List<Races> _Races;
+        private List<Race> _Races;
         private DateTime _dateSelected;
 
         public CreateRace()
@@ -42,8 +42,8 @@ namespace NordicApp.Views
         {
             try
             {
-                var races = await _connection.Table<Races>().ToListAsync();
-                _Races = new List<Races>(races);
+                var races = await _connection.Table<Race>().ToListAsync();
+                _Races = new List<Race>(races);
             }
             catch
             {
@@ -77,7 +77,7 @@ namespace NordicApp.Views
 
             if (checkRacesInfo())
             {
-                var race = new Races()
+                var race = new Race()
                 {
                     Name = raceName.Text,
                     Style = raceStyle.SelectedItem.ToString(),
@@ -89,6 +89,7 @@ namespace NordicApp.Views
                     Final = false,
                     Selected = false
                 };
+
                 try
                 {
                     await _connection.InsertAsync(race);

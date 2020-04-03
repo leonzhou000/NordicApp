@@ -19,18 +19,18 @@ namespace NordicApp.Views
     public partial class PrelimaryPage : ContentPage
     {
         private SQLiteAsyncConnection _connection;
-        private ObservableCollection<Racers> _racers;
-        private Races _raceInfo;
-        private Racers _selectedRacer;
+        private ObservableCollection<Racer> _racers;
+        private Race _raceInfo;
+        private Racer _selectedRacer;
         Stopwatch _stopwatch;
 
-        public PrelimaryPage(Races race)
+        public PrelimaryPage(Race race)
         {
             InitializeComponent();
             Init(race);
         }
 
-        private async void Init(Races race)
+        private async void Init(Race race)
         {
             _raceInfo = race;
             _stopwatch = new Stopwatch();
@@ -43,8 +43,8 @@ namespace NordicApp.Views
         {
             try
             {
-                await _connection.CreateTableAsync<Racers>();
-                _racers = await getRaces();
+                await _connection.CreateTableAsync<Racer>();
+                _racers = await getRacers();
                 racersList.ItemsSource = _racers;
             }
             catch
@@ -59,16 +59,16 @@ namespace NordicApp.Views
             return true;
         }
 
-        private async Task<ObservableCollection<Racers>> getRaces()
+        private async Task<ObservableCollection<Racer>> getRacers()
         {
             try
             {
-                var table = await _connection.Table<Racers>().ToListAsync();
+                var table = await _connection.Table<Racer>().ToListAsync();
                 var racers = from people in table
-                             where people.dataset == _raceInfo.Id 
+                             where people.dataset == _raceInfo.Id && people.disqualified == false
                              orderby people.Number ascending
                              select people;
-                return new ObservableCollection<Racers>(racers);
+                return new ObservableCollection<Racer>(racers);
             }
             catch
             {
@@ -77,7 +77,7 @@ namespace NordicApp.Views
             }
         }
 
-        private TimeSpan getElapsedTime(Racers racer)
+        private TimeSpan getElapsedTime(Racer racer)
         {
             return racer.EndTime.Subtract(racer.StartTime);
         }
@@ -87,17 +87,17 @@ namespace NordicApp.Views
             return _stopwatch.Elapsed;
         }
 
-        private async void UpdateInfo(Racers racer)
+        private async void UpdateInfo(Racer racer)
         {
             await _connection.UpdateAsync(racer);
-            _racers = await getRaces();
+            _racers = await getRacers();
             racersList.ItemsSource = _racers;
             racersList.SelectedItem = null;
         }
 
         private async void checkRacerStatus()
         {
-            foreach (Racers racer in _racers)
+            foreach (Racer racer in _racers)
             {
                 if (racer.EndTime == null)
                 {
@@ -173,13 +173,13 @@ namespace NordicApp.Views
         private async void Finshed_Clicked(object sender, EventArgs e)
         {
             _stopwatch.Stop();
-            checkRacerStatus();
+            //checkRacerStatus();
             var choose = await DisplayAlert("Finish.", "Are you done with the Prelimary Round?", "Yes", "No");
             if (choose)
             {
                 _raceInfo.Prelimary = true;
                 await _connection.UpdateAsync(_raceInfo);
-                await Navigation.PushAsync(new ResultsPage(_raceInfo));
+                await Navigation.PushAsync(new RoundPage(_raceInfo));
             }
             else
             {
@@ -189,7 +189,7 @@ namespace NordicApp.Views
 
         private void racer_View_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            _selectedRacer = racersList.SelectedItem as Racers;
+            _selectedRacer = racersList.SelectedItem as Racer;
             if ( _selectedRacer.premlStarted == false && _selectedRacer.premlFinished == false && _stopwatch.IsRunning)
             {
                 _selectedRacer.StartTime = RecordTime();

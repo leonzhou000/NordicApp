@@ -5,19 +5,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="NordicApp.Views.RoundPage"
-             Title="Round One"
              Padding="10, 20, 10, 10"
-             BackgroundColor="LightBlue">
+             BackgroundColor="LightBlue"
+             NavigationPage.HasBackButton="false">
     <ContentPage.Content>
         <Grid BackgroundColor="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
+            <Label x:Name="Info" Grid.Row="0"/>
             <ScrollView Grid.Row="1">
-                <ListView x:Name="ViewHeats">
-                    
+                <ListView x:Name="ViewHeats"  SeparatorVisibility="Default" IsVisible="True" 
+              SeparatorColor="Aqua" HasUnevenRows="True" IsGroupingEnabled="True"
+              GroupDisplayBinding="{Binding Title}"
+              GroupShortNameBinding="{Binding ShortTitle}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </ScrollView>
             <Button x:Name="finishBtm" Text="Done" Grid.Row="2" Clicked="finishBtm_Clicked"/>
