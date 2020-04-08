@@ -77,21 +77,6 @@ namespace NordicApp.Models
             }
         }
 
-        private int _heatNumber;
-
-        public int heatNumber
-        {
-            get { return _heatNumber; }
-            set
-            {
-                if (_heatNumber == value) { return; }
-                _heatNumber = value;
-
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(heatNumber));
-            }
-        }
-
         private string _gender;
 
         public string gender
@@ -107,33 +92,29 @@ namespace NordicApp.Models
             }
         }
 
-        public int roundOnePlacement { get; set; }
-        
-        public int roundTwoPlacement { get; set; }
-        
-        public int roundThreePlacement { get; set; }
+        public int Ranking{ get; set; }
 
-        public int roundFinalPlacement { get; set; }
+        public string status { get; set; }
+
+        public int roundOneHeatNumber { get; set; }
+
+        public int roundOneFinish { get; set; } 
+        
+        public int roundTwoHeatNumber { get; set; }
+
+        public int roundTwoFinish { get; set; }
+        
+        public int roundThreeHeatNumber { get; set; }
+
+        public int roundThreeFinish { get; set; }
+
+        public int finalsHeatNumber { get; set; }
+
+        public int finalsFinihs { get; set; }
 
         public bool premlStarted { get; set; }
 
         public bool premlFinished { get; set; }
-
-        public bool roundOneStart { get; set; }
-
-        public bool roundOneFinish { get; set; }
-
-        public bool roundTwoStart { get; set; }
-
-        public bool roundTwoFinsh { get; set; }
-
-        public bool roundThreeStart { get; set; }
-
-        public bool roundThreeFinsh { get; set; }
-
-        public bool roundFinalStart { get; set; }
-        
-        public bool roundFinalEnd { get; set; }
 
         public bool disqualified { get; set; }
 

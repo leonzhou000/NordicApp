@@ -8,17 +8,22 @@
              Padding="10, 20, 10, 10"
              BackgroundColor="LightBlue"
              NavigationPage.HasBackButton="false">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid BackgroundColor="White">
+        <Grid BackgroundColor="White" Padding="10, 10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <Label x:Name="Info" Grid.Row="0"/>
-            <ScrollView Grid.Row="1">
+            <Label x:Name="Info" Grid.Row="0" Grid.ColumnSpan="3"/>
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView x:Name="ViewHeats"  SeparatorVisibility="Default" IsVisible="True" 
-              SeparatorColor="Aqua" HasUnevenRows="True" IsGroupingEnabled="True"
+              SeparatorColor="Aqua" HasUnevenRows="True" IsGroupingEnabled="True" ItemTapped="ViewHeats_ItemTapped"
               GroupDisplayBinding="{Binding Title}"
               GroupShortNameBinding="{Binding ShortTitle}">
                     <ListView.ItemTemplate>
@@ -26,18 +31,24 @@
                             <ViewCell>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}"/>
-                                    <Label Grid.Column="1" Text="{Binding Lname}"/>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}" FontSize="25"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}" FontSize="25"/>
+                                    <Label Grid.Column="2" Text="{Binding status}"  />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollView>
-            <Button x:Name="finishBtm" Text="Done" Grid.Row="2" Clicked="finishBtm_Clicked"/>
+            <Label x:Name="heatTracker" Grid.Row="2" Grid.ColumnSpan="3"/>
+            <Button x:Name="startBtm" Text="Start" Grid.Row="3" Grid.Column="0" BackgroundColor="LightGreen" Clicked="startBtm_Clicked"/>
+            <Button x:Name="resetBtm" Text="Reset" Grid.Row="3" Grid.Column="1" BackgroundColor="LightGray" Clicked="resetBtm_Clicked"/>
+            <Button x:Name="stopBtm" Text="Finsh" Grid.Row="3" Grid.Column="2" BackgroundColor="LightSalmon" Clicked="stopBtm_Clicked"/>
+            <Button x:Name="finishBtm" Text="Done" Grid.Row="4" Grid.ColumnSpan="3" BackgroundColor="LightBlue" Clicked="finishBtm_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

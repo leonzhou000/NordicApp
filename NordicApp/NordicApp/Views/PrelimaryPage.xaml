@@ -10,7 +10,7 @@
              BackgroundColor="LightBlue"
              NavigationPage.HasBackButton="false"> 
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Race" Clicked="addRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Racer" Clicked="addRacer_Clicked" Order="Secondary"/>
         <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked" Order="Secondary"/>
         <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked" Order="Secondary"/>
         <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>

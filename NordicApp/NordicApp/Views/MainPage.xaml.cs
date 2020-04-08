@@ -40,10 +40,21 @@ namespace NordicApp.Views
             {
                 await Navigation.PushAsync(new PrelimaryPage(race));
             }
-            else if( race.roundOne == false || race.roundTwo == false ||
-                race.roundThree == false || race.Final == false)
+            else if( race.roundOne == false)
             {
-                await Navigation.PushAsync(new RoundPage(race));
+                await Navigation.PushAsync(new RoundPage(race, 1));
+            }
+            else if (race.roundTwo == false)
+            {
+                await Navigation.PushAsync(new RoundPage(race, 2));
+            }
+            else if (race.roundThree == false)
+            {
+                await Navigation.PushAsync(new RoundPage(race, 3));
+            }
+            else if (race.Final == false)
+            {
+                await Navigation.PushAsync(new RoundPage(race, 4));
             }
         }
 

@@ -92,7 +92,6 @@ namespace NordicApp.Views
             await _connection.UpdateAsync(racer);
             _racers = await getRacers();
             racersList.ItemsSource = _racers;
-            racersList.SelectedItem = null;
         }
 
         private async void checkRacerStatus()
@@ -159,7 +158,7 @@ namespace NordicApp.Views
 
         private async void exitRace_Clicked(object sender, EventArgs e)
         {
-            var choose = await DisplayAlert("Exit", "Your rac eis not finished.\n Would like to leave?", "Yes", "No");
+            var choose = await DisplayAlert("Exit", "Your race is not finished.\n Would like to leave?", "Yes", "No");
             if (choose)
             {
                 await Navigation.PushAsync(new MainPage());
@@ -179,7 +178,7 @@ namespace NordicApp.Views
             {
                 _raceInfo.Prelimary = true;
                 await _connection.UpdateAsync(_raceInfo);
-                await Navigation.PushAsync(new RoundPage(_raceInfo));
+                await Navigation.PushAsync(new RoundPage(_raceInfo, 1));
             }
             else
             {
@@ -195,7 +194,6 @@ namespace NordicApp.Views
                 _selectedRacer.StartTime = RecordTime();
                 _selectedRacer.premlStarted = true;
                 UpdateInfo(_selectedRacer);
-                return;
             }
             if ( _selectedRacer.premlFinished == false && _selectedRacer.premlStarted == true)
             {
@@ -203,7 +201,6 @@ namespace NordicApp.Views
                 _selectedRacer.premlFinished = true;
                 _selectedRacer.ElapsedTime = getElapsedTime(_selectedRacer);
                 UpdateInfo(_selectedRacer);
-                return;
             }
             racersList.SelectedItem = null;
             return;

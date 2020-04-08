@@ -67,16 +67,9 @@ namespace NordicApp.Views
                         Number = getBibNumber(),
                         ageGroup = Group.Text,
                         dataset = _raceInfo.Id,
+                        status = "standby",
                         premlStarted = false,
                         premlFinished = false,
-                        roundOneStart = false,
-                        roundOneFinish = false,
-                        roundTwoStart = false,
-                        roundTwoFinsh = false,
-                        roundThreeStart = false,
-                        roundThreeFinsh = false,
-                        roundFinalStart = false,
-                        roundFinalEnd = false,
                         disqualified = false,
                         Selected = false
                     };
