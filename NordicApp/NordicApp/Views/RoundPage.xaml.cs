@@ -1,14 +1,13 @@
-﻿using NordicApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NordicApp.Data;
+using NordicApp.Models;
 using System.Collections.ObjectModel;
 
 namespace NordicApp.Views
@@ -27,6 +26,7 @@ namespace NordicApp.Views
         private int heatsize = 5;
         private int prevRound = 0;
         private int currentRound = 0;
+        private int placemant = 1;
 
         public RoundPage(Race race, int Round)
         {
@@ -48,7 +48,6 @@ namespace NordicApp.Views
             _raceGroups = createRaceGroups();
             ViewHeats.ItemsSource = _raceGroups;
         }
-
         protected override void OnAppearing()
         {
             Title = getRoundString(_round);
@@ -77,7 +76,6 @@ namespace NordicApp.Views
                 return null;
             }
         }
-
         private ObservableCollection<RacerGroups> createRaceGroups()
         {
             ObservableCollection<RacerGroups> _groups = new ObservableCollection<RacerGroups>();
@@ -95,10 +93,10 @@ namespace NordicApp.Views
                 {
                     heat++;
                 }
-                recordHeat(_racers[i], _round, heat);
+                _racers[i].setRecordHeat(_round, heat);
                 _groups[heat].Add(_racers[i]);
             }
-            
+            _connection.UpdateAllAsync(_groups);
             return _groups;
         }
 
@@ -114,32 +112,20 @@ namespace NordicApp.Views
 
             for (int i = 0; i < totalNumberOfRacers; i++)
             {
-                _groups[_racers[i].roundOneHeatNumber].Add(_racers[i]);
+                _groups[_racers[i].getRoundHeatNumber(_round)].Add(_racers[i]);
             }
 
             return _groups;
         }
 
-        private async void recordHeat(Racer racer, int round, int number)
+        private void mergeGroups()
         {
-            if(round == 1)
-            {
-                racer.roundOneHeatNumber = number;
-            }
-            if(round == 2)
-            {
-                racer.roundTwoHeatNumber = number;
-            }
-            if( round == 3)
-            {
-                racer.roundThreeHeatNumber = number;
-            }
-            if( round == 4)
-            {
-                racer.finalsHeatNumber = number;
 
-            }
-            await _connection.UpdateAsync(racer);
+        }
+
+        private void switchRacers()
+        {
+
         }
 
         private int getMaxNumberOfHeats()
@@ -154,28 +140,20 @@ namespace NordicApp.Views
             }
         }
 
-        private void mergeGroups()
-        {
-
-        }
-
-        private void switchRacers()
-        {
-
-        }
-
         private string getRoundString(int round)
         {
             if(round == 4)
             {
                 return "Final Round";
             }
+            
             return "Round "+round.ToString();
         }
 
         private void ViewHeats_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             _selectedRacer = ViewHeats.SelectedItem as Racer;
+            ViewHeats.SelectedItem = null;
         }
 
         private async void exitRace_Clicked(object sender, EventArgs e)
@@ -196,8 +174,9 @@ namespace NordicApp.Views
             bool done = await DisplayAlert("Check","Finish with round?", "Yes", "No");
             if (done)
             {
-                await Navigation.PushAsync(new ResultsPage(_raceInto));
+                await Navigation.PushAsync(new RoundResultsPage(_raceInto, _round));
             }
+            
             return;
         }
 
@@ -210,17 +189,20 @@ namespace NordicApp.Views
             {
                 _raceGroups[currentRound][i].status = "started";
             }
+            
             await _connection.UpdateAllAsync(_raceGroups[currentRound]);
             _racers = await getRacers();
             _raceGroups = getRaceGroups();
             ViewHeats.ItemsSource = _raceGroups;
             prevRound = currentRound;
             currentRound++;
+
             if (currentRound > totalNumberOfHeats - 1)
             {
                 heatTracker.Text = "All Heat are done racing.\nThere are no more heats to start.";
                 return;
             }
+            
             heatTracker.Text = "Heat " + (currentRound+1).ToString() + " ready to Start.";
         }
 
@@ -240,6 +222,7 @@ namespace NordicApp.Views
                 currentRound = prevRound;
                 heatTracker.Text = "Heat " + (currentRound + 1).ToString() + " ready to Start.";
             }
+            
             return;
         }
 
@@ -248,11 +231,18 @@ namespace NordicApp.Views
             if (_selectedRacer == null)
                 return;
 
+            if(placemant > 5)
+            {
+                placemant = 0;
+            }
+            
             _selectedRacer.status = "Finished";
+            _selectedRacer.roundOneFinish = placemant;
             await _connection.UpdateAsync(_selectedRacer);
             _racers = await getRacers();
             _raceGroups = getRaceGroups();
             ViewHeats.ItemsSource = _raceGroups;
+            placemant++;
             _selectedRacer = null;
         }
     }

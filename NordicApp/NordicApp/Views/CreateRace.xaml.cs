@@ -74,7 +74,6 @@ namespace NordicApp.Views
 
         private async void SubmitBtm_Clicked(object sender, EventArgs e)
         {
-
             if (checkRacesInfo())
             {
                 var race = new Race()

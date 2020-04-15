@@ -92,6 +92,44 @@ namespace NordicApp.Models
             }
         }
 
+        public int getRoundHeatNumber(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    return roundOneHeatNumber;
+                case (2):
+                    return roundTwoHeatNumber;
+                case (3):
+                    return roundThreeHeatNumber;
+                case (4):
+                    return finalsHeatNumber;
+                default:
+                    return 0;
+            }
+        }
+
+        public void setRecordHeat(int round, int heat)
+        {
+            switch (round)
+            {
+                case (1):
+                    roundOneHeatNumber = heat;
+                    return;
+                case (2):
+                    roundTwoHeatNumber = heat;
+                    return;
+                case (3):
+                    roundThreeHeatNumber = heat;
+                    return;
+                case (4):
+                    finalsHeatNumber = heat;
+                    return;
+                default:
+                    return;
+            }
+        }
+
         public int Ranking{ get; set; }
 
         public string status { get; set; }
@@ -110,7 +148,7 @@ namespace NordicApp.Models
 
         public int finalsHeatNumber { get; set; }
 
-        public int finalsFinihs { get; set; }
+        public int finalsFinish { get; set; }
 
         public bool premlStarted { get; set; }
 

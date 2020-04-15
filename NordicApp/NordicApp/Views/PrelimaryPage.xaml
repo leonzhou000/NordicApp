@@ -10,15 +10,15 @@
              BackgroundColor="LightBlue"
              NavigationPage.HasBackButton="false"> 
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Racer" Clicked="addRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Racer" Clicked="addRacer_Clicked" Order="Primary"/>
         <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked" Order="Secondary"/>
-        <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked" Order="Primary"/>
         <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid BackgroundColor="White" Padding="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="60"/>
@@ -36,15 +36,15 @@
                             <ViewCell>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition Width="40"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}"/>
-                                    <Label Grid.Column="1" Text="{Binding Lname}"/>
-                                    <Label Grid.Column="2" Text="{Binding StartTime, StringFormat='Start {0:hh\\:mm\\:ss}'}"/>
-                                    <Label Grid.Column="3" Text="{Binding EndTime, StringFormat='End {0:hh\\:mm\\:ss}'}"/>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}" FontSize="20"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}" FontSize="20"/>
+                                    <Label Grid.Column="2" Text="{Binding StartTime, StringFormat='Start {0:hh\\:mm\\:ss}'}" FontSize="20"/>
+                                    <Label Grid.Column="3" Text="{Binding EndTime, StringFormat='End {0:hh\\:mm\\:ss}'}" FontSize="20"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

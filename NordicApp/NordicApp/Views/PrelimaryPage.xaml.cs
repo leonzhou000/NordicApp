@@ -98,12 +98,12 @@ namespace NordicApp.Views
         {
             foreach (Racer racer in _racers)
             {
-                if (racer.EndTime == null)
+                if (racer.premlFinished == false)
                 {
                     racer.disqualified = true;
-                    await _connection.UpdateAsync(racer);
                 }
             }
+            await _connection.UpdateAllAsync(_racers);
         }
 
         private void modifyRacer_Clicked(object sender, EventArgs e)
@@ -114,6 +114,9 @@ namespace NordicApp.Views
         private void Start_time_Clicked(object sender, EventArgs e)
         {
             _stopwatch.Start();
+            addRacer.IsEnabled = false;
+            modifyRacer.IsEnabled = false;
+            deleteRacer.IsEnabled = false;
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
                 timer.Text = _stopwatch.Elapsed.ToString("hh\\:mm\\:ss");
@@ -124,6 +127,9 @@ namespace NordicApp.Views
         private void Stop_time_Clicked(object sender, EventArgs e)
         {
             _stopwatch.Stop();
+            addRacer.IsEnabled = true;
+            modifyRacer.IsEnabled = true;
+            deleteRacer.IsEnabled = true;
         }
 
         private void Reset_time_Clicked(object sender, EventArgs e)
@@ -158,6 +164,7 @@ namespace NordicApp.Views
 
         private async void exitRace_Clicked(object sender, EventArgs e)
         {
+            _stopwatch.Stop();
             var choose = await DisplayAlert("Exit", "Your race is not finished.\n Would like to leave?", "Yes", "No");
             if (choose)
             {
@@ -171,12 +178,11 @@ namespace NordicApp.Views
 
         private async void Finshed_Clicked(object sender, EventArgs e)
         {
-            _stopwatch.Stop();
-            //checkRacerStatus();
+            checkRacerStatus();
             var choose = await DisplayAlert("Finish.", "Are you done with the Prelimary Round?", "Yes", "No");
             if (choose)
             {
-                _raceInfo.Prelimary = true;
+                _stopwatch.Stop();
                 await _connection.UpdateAsync(_raceInfo);
                 await Navigation.PushAsync(new RoundPage(_raceInfo, 1));
             }
@@ -185,23 +191,28 @@ namespace NordicApp.Views
                 return;
             }
         }
-
         private void racer_View_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             _selectedRacer = racersList.SelectedItem as Racer;
-            if ( _selectedRacer.premlStarted == false && _selectedRacer.premlFinished == false && _stopwatch.IsRunning)
+            if ( _selectedRacer.premlStarted == false && _stopwatch.IsRunning)
             {
-                _selectedRacer.StartTime = RecordTime();
                 _selectedRacer.premlStarted = true;
+                _selectedRacer.StartTime = RecordTime();
                 UpdateInfo(_selectedRacer);
+                racersList.SelectedItem = null;
+                return;
             }
-            if ( _selectedRacer.premlFinished == false && _selectedRacer.premlStarted == true)
+
+            if ( _selectedRacer.premlStarted && _selectedRacer.premlFinished == false && _stopwatch.IsRunning)
             {
                 _selectedRacer.EndTime = RecordTime();
                 _selectedRacer.premlFinished = true;
                 _selectedRacer.ElapsedTime = getElapsedTime(_selectedRacer);
                 UpdateInfo(_selectedRacer);
+                racersList.SelectedItem = null;
+                return; 
             }
+
             racersList.SelectedItem = null;
             return;
         }

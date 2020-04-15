@@ -25,7 +25,8 @@
                 <Label Text="Bib Number" FontSize="15" TextColor="Black"/>
                 <Editor x:Name="bibNumber" Placeholder="ie. (35)" Keyboard="Numeric"/>
             </StackLayout>
-            <Button x:Name="addRacer" Grid.Row="2" Text="Add racer" BackgroundColor="LightBlue" Clicked="addRacer_Clicked"/>
+            <Button x:Name="addRacer" Grid.Row="1" Text="Add racer" BackgroundColor="LightBlue" Clicked="addRacer_Clicked"/>
+            <Button x:Name="doneBtm" Grid.Row="2" Text="Done" BackgroundColor="LightBlue" Clicked="doneBtm_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
