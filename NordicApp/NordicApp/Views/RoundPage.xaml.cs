@@ -48,6 +48,7 @@ namespace NordicApp.Views
             _raceGroups = createRaceGroups();
             ViewHeats.ItemsSource = _raceGroups;
         }
+
         protected override void OnAppearing()
         {
             Title = getRoundString(_round);
@@ -65,8 +66,7 @@ namespace NordicApp.Views
             {
                 var table = await _connection.Table<Racer>().ToListAsync();
                 var racers = from people in table
-                             where people.dataset == _raceInto.Id && people.disqualified == false
-                             orderby people.ElapsedTime descending
+                             where people.dataset == _raceInto.Id
                              select people;
                 return new List<Racer>(racers);
             }
@@ -95,8 +95,8 @@ namespace NordicApp.Views
                 }
                 _racers[i].setRecordHeat(_round, heat);
                 _groups[heat].Add(_racers[i]);
+                _connection.UpdateAsync(_racers[i]);
             }
-            _connection.UpdateAllAsync(_groups);
             return _groups;
         }
 
@@ -174,7 +174,7 @@ namespace NordicApp.Views
             bool done = await DisplayAlert("Check","Finish with round?", "Yes", "No");
             if (done)
             {
-                await Navigation.PushAsync(new RoundResultsPage(_raceInto, _round));
+                await Navigation.PushAsync(new RoundResultsPage(_raceInto, _round, totalNumberOfHeats));
             }
             
             return;

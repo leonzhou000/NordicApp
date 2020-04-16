@@ -18,22 +18,26 @@ namespace NordicApp.Views
         private Race _raceInfo;
         private SQLiteAsyncConnection _connection;
         private List<Racer> _racers;
+        private ObservableCollection<RacerGroups> _raceGroups;
         private int _round;
+        private int _totalHeatNumber;
 
-        public RoundResultsPage(Race race, int round)
+        public RoundResultsPage(Race race, int round, int totalNumberOfHeats)
         {
             InitializeComponent();
-            Init(race, round);
+            Init(race, round, totalNumberOfHeats);
         }
 
-        private async void Init(Race race, int Round)
+        private async void Init(Race race, int Round, int totalHeats)
         {
             _raceInfo = race;
             _round = Round;
+            _totalHeatNumber = totalHeats;
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
             _racers = await getRacers();
-            resultsViewer.ItemsSource = _racers;
+            _raceGroups = createRacerGroups();
+            resultsViewer.ItemsSource = _raceGroups;
         }
 
         protected override void OnAppearing()
@@ -71,7 +75,7 @@ namespace NordicApp.Views
             {
                 var table = await _connection.Table<Racer>().ToListAsync();
                 var racers = from people in table
-                             where people.dataset == _raceInfo.Id && people.disqualified == false
+                             where people.dataset == _raceInfo.Id 
                              select people;
                 return new List<Racer>(racers);
             }
@@ -82,12 +86,22 @@ namespace NordicApp.Views
             }
         }
 
-        private ObservableCollection<RacerGroups> getRacerGroups()
+        private void organizeRacers(ObservableCollection<RacerGroups> group, int heat)
         {
-            ObservableCollection<RacerGroups> _temp = new ObservableCollection<RacerGroups>();
-            return _temp; 
+
         }
 
+        private ObservableCollection<RacerGroups> createRacerGroups()
+        {
+            ObservableCollection<RacerGroups> _groups = new ObservableCollection<RacerGroups>();
+            for (int j = 0; j < _totalHeatNumber; j++)
+            {
+                string title = "Heat " + (j + 1).ToString();
+                _groups.Add(new RacerGroups(title, (j + 1).ToString()));
+            }
+
+            return _groups; 
+        }
 
         private async void nextRound_Clicked(object sender, EventArgs e)
         {

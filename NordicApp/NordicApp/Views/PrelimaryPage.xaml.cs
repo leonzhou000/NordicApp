@@ -191,6 +191,7 @@ namespace NordicApp.Views
                 return;
             }
         }
+
         private void racer_View_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             _selectedRacer = racersList.SelectedItem as Racer;

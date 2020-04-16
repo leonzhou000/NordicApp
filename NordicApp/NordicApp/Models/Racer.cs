@@ -8,6 +8,18 @@ using System.Collections.ObjectModel;
 
 namespace NordicApp.Models
 {
+    public enum Status
+    {
+        StandyBy,
+        Started,
+        Finished,
+        DQ,
+        Premils,
+        One,
+        Two,
+        Three
+    }
+
     class RacerGroups : ObservableCollection<Racer>
     {
         public string Title { get; set; }
