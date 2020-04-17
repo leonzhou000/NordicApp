@@ -17,7 +17,7 @@ namespace NordicApp.Models
         Premils,
         One,
         Two,
-        Three
+        Three    
     }
 
     class RacerGroups : ObservableCollection<Racer>
@@ -142,25 +142,33 @@ namespace NordicApp.Models
             }
         }
 
-        public int Ranking{ get; set; }
+        public int Ranking { get; set; }
 
         public string status { get; set; }
 
         public int roundOneHeatNumber { get; set; }
 
-        public int roundOneFinish { get; set; } 
-        
-        public int roundTwoHeatNumber { get; set; }
+        public int roundOneplacement { get; set; }
 
-        public int roundTwoFinish { get; set; }
+        public bool roundOneFinish { get; set; }
+
+        public int roundTwoHeatNumber { get; set; }
+        
+        public int roundTwoPlacement { get; set; }
+
+        public bool roundTwoFinish { get; set; }
         
         public int roundThreeHeatNumber { get; set; }
 
-        public int roundThreeFinish { get; set; }
+        public int roundThreePlacement { get; set; }
+
+        public bool roundThreeFinish { get; set; }
 
         public int finalsHeatNumber { get; set; }
+        
+        public int finalsPlacement { get; set; }
 
-        public int finalsFinish { get; set; }
+        public bool finalsFinish { get; set; }
 
         public bool premlStarted { get; set; }
 

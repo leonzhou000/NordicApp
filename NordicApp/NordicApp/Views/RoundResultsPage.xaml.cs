@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using SQLite;
@@ -8,7 +9,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NordicApp.Data;
 using NordicApp.Models;
-using System.Collections.ObjectModel;
 
 namespace NordicApp.Views
 {
@@ -35,8 +35,10 @@ namespace NordicApp.Views
             _totalHeatNumber = totalHeats;
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
-            _racers = await getRacers();
             _raceGroups = createRacerGroups();
+            _racers = await getRacers();
+            _racers = selectRacers();
+            OrganizeRacers();
             resultsViewer.ItemsSource = _raceGroups;
         }
 
@@ -44,29 +46,6 @@ namespace NordicApp.Views
         {
             Title = "Results for Round " + _round.ToString();
             base.OnAppearing();
-        }
-
-        private void RoundUpdater(int round)
-        {
-            if(round == 1)
-            {
-                return;
-            }
-            
-            if(round == 2)
-            {
-                return;
-            }
-            
-            if(round == 3)
-            {
-                return;
-            }
-
-            if(round == 4)
-            {
-                return;
-            } 
         }
 
         private async Task<List<Racer>> getRacers()
@@ -77,6 +56,7 @@ namespace NordicApp.Views
                 var racers = from people in table
                              where people.dataset == _raceInfo.Id 
                              select people;
+
                 return new List<Racer>(racers);
             }
             catch
@@ -86,14 +66,39 @@ namespace NordicApp.Views
             }
         }
 
-        private void organizeRacers(ObservableCollection<RacerGroups> group, int heat)
+        private List<Racer> selectRacers()
         {
-
+            switch (_round)
+            {
+                case (1):
+                    var selected = from people in _racers
+                                   where people.premlFinished
+                                   select people;
+                    return new List<Racer>(selected);
+                case (2):
+                    selected = from people in _racers
+                               where people.roundOneFinish
+                                   select people;
+                    return new List<Racer>(selected);
+                case (3):
+                    selected = from people in _racers
+                               where people.roundTwoFinish
+                                   select people;
+                    return new List<Racer>(selected);
+                case (4):
+                    selected = from people in _racers
+                               where people.roundTwoFinish
+                                   select people;
+                    return new List<Racer>(selected);
+                default:
+                    return null;
+            }
         }
 
         private ObservableCollection<RacerGroups> createRacerGroups()
         {
             ObservableCollection<RacerGroups> _groups = new ObservableCollection<RacerGroups>();
+
             for (int j = 0; j < _totalHeatNumber; j++)
             {
                 string title = "Heat " + (j + 1).ToString();
@@ -103,12 +108,19 @@ namespace NordicApp.Views
             return _groups; 
         }
 
+        private void OrganizeRacers()
+        {
+
+
+        }
+
         private async void nextRound_Clicked(object sender, EventArgs e)
         {
             bool done = await DisplayAlert("Check", "Finish viewing results?", "Yes", "No");
             if (done)
             {
-                await Navigation.PushAsync(new RoundPage(_raceInfo, 2));
+                _round++;
+                await Navigation.PushAsync(new RoundPage(_raceInfo, _round));
             }
             return;
         }

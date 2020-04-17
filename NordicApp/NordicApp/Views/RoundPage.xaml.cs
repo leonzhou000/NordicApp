@@ -66,7 +66,8 @@ namespace NordicApp.Views
             {
                 var table = await _connection.Table<Racer>().ToListAsync();
                 var racers = from people in table
-                             where people.dataset == _raceInto.Id
+                             where people.dataset == _raceInto.Id && people.disqualified == false
+                             orderby people.ElapsedTime descending
                              select people;
                 return new List<Racer>(racers);
             }
@@ -76,6 +77,7 @@ namespace NordicApp.Views
                 return null;
             }
         }
+
         private ObservableCollection<RacerGroups> createRaceGroups()
         {
             ObservableCollection<RacerGroups> _groups = new ObservableCollection<RacerGroups>();
@@ -93,6 +95,7 @@ namespace NordicApp.Views
                 {
                     heat++;
                 }
+
                 _racers[i].setRecordHeat(_round, heat);
                 _groups[heat].Add(_racers[i]);
                 _connection.UpdateAsync(_racers[i]);
@@ -187,7 +190,7 @@ namespace NordicApp.Views
 
             for(int i=0; i < _raceGroups[currentRound].Count; i++)
             {
-                _raceGroups[currentRound][i].status = "started";
+                _raceGroups[currentRound][i].status = Status.Started.ToString();
             }
             
             await _connection.UpdateAllAsync(_raceGroups[currentRound]);
@@ -213,8 +216,10 @@ namespace NordicApp.Views
             {
                 for (int i = 0; i < _raceGroups[prevRound].Count; i++)
                 {
-                    _raceGroups[prevRound][i].status = "Standby";
+                    _raceGroups[prevRound][i].status = Status.StandyBy.ToString();
+                    _raceGroups[prevRound][i].roundOneFinish = false;
                 }
+
                 await _connection.UpdateAllAsync(_raceGroups[prevRound]);
                 _racers = await getRacers();
                 _raceGroups = getRaceGroups();
@@ -228,7 +233,7 @@ namespace NordicApp.Views
 
         private async void stopBtm_Clicked(object sender, EventArgs e)
         {
-            if (_selectedRacer == null)
+            if (_selectedRacer == null || _selectedRacer.status == Status.Started.ToString())
                 return;
 
             if(placemant > 5)
@@ -236,8 +241,9 @@ namespace NordicApp.Views
                 placemant = 0;
             }
             
-            _selectedRacer.status = "Finished";
-            _selectedRacer.roundOneFinish = placemant;
+            _selectedRacer.status = Status.Finished.ToString();
+            _selectedRacer.roundOneplacement = placemant;
+            _selectedRacer.roundOneFinish = true;
             await _connection.UpdateAsync(_selectedRacer);
             _racers = await getRacers();
             _raceGroups = getRaceGroups();
