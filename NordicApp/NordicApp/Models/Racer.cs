@@ -108,31 +108,37 @@ namespace NordicApp.Models
 
         public string status { get; set; }
 
-        public int lane { get; set; }
-
         public int roundOneHeatNumber { get; set; }
 
         public int roundOnePlacement { get; set; }
 
+        public int roundOneLane { get; set; }
+
         public bool roundOneFinish { get; set; }
 
         public int roundTwoHeatNumber { get; set; }
-        
+
         public int roundTwoPlacement { get; set; }
 
+        public int roundTwoLane { get; set; }
+
         public bool roundTwoFinish { get; set; }
-        
+
         public int roundThreeHeatNumber { get; set; }
 
         public int roundThreePlacement { get; set; }
 
         public bool roundThreeFinish { get; set; }
 
+        public int roundThreeLane { get; set; }
+
         public int finalsHeatNumber { get; set; }
-        
+
         public int finalsPlacement { get; set; }
 
         public bool finalsFinish { get; set; }
+
+        public int finalLane { get; set; }
 
         public bool premlStarted { get; set; }
 
@@ -226,24 +232,23 @@ namespace NordicApp.Models
             }
         }
 
-        public void setRoundFinish(int round)
+        public void setRoundFinish(int round, bool status)
         {
             switch (round)
             {
                 case (1):
-                    roundOneFinish = true;
+                    roundOneFinish = status;
                     return;
                 case (2):
-                    roundTwoFinish = true;
+                    roundTwoFinish = status;
                     return;
                 case (3):
-                    roundThreeFinish = true;
+                    roundThreeFinish = status;
                     return;
                 case (4):
-                    finalsFinish = true;
+                    finalsFinish = status;
                     return;
                 default:
-                    premlFinished = true;
                     return;
             }
         }
@@ -262,6 +267,44 @@ namespace NordicApp.Models
                     return finalsFinish; 
                 default:
                     return premlFinished;
+            }
+        }
+
+        public void setRoundsLane(int round, int lane)
+        {
+            switch (round)
+            {
+                case (1):
+                    roundOneLane = lane;
+                    return;
+                case (2):
+                    roundTwoLane = lane;
+                    return;
+                case (3):
+                    roundThreeLane = lane;
+                    return;
+                case (4):
+                    finalLane = lane;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        public int getLaneNumber(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    return roundOneLane;
+                case (2):
+                    return roundTwoLane;
+                case (3):
+                    return roundThreeLane;
+                case (4):
+                    return finalLane;
+                default:
+                    return 0;
             }
         }
 

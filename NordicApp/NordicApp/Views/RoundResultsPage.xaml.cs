@@ -9,6 +9,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NordicApp.Data;
 using NordicApp.Models;
+using System.Runtime.ExceptionServices;
+using System.Threading;
 
 namespace NordicApp.Views
 {
@@ -44,7 +46,7 @@ namespace NordicApp.Views
 
         protected override void OnAppearing()
         {
-            Title = "Results for "+getRoundString(_round);
+            Title = getRoundString(_round) + " Results";
             base.OnAppearing();
         }
 
@@ -84,9 +86,9 @@ namespace NordicApp.Views
         private List<Racer> selectRacers()
         {
             var selected = from people in _racers
-                            where people.getRoundFinish(_round-1)
-                            orderby people.getRoundPlacement(_round) ascending
-                            select people;
+                           where people.getRoundFinish(_round - 1) && people.disqualified == false
+                           orderby people.getRoundPlacement(_round) ascending
+                           select people;
             return new List<Racer>(selected);
         }
 
@@ -109,6 +111,68 @@ namespace NordicApp.Views
             {
                 _raceGroups[racer.getHeatNumber(_round)].Add(racer);
             }
+        }
+
+        private void lastPlaceHandling(Racer racer)
+        {
+            int heat = racer.getHeatNumber(_round);
+            if(heat+1 >= _totalHeatNumber)
+            {
+                disqualifeRacer(racer);
+                return;
+            }
+            racer.setHeatNumber(_round + 1, heat + 1);
+            racer.setRoundsLane(_round + 1, 0);
+            _connection.UpdateAsync(racer);
+        }
+
+        private void firstPlaceHandling(Racer racer)
+        {
+            int heat = racer.getHeatNumber(_round);
+            if(heat - 1 < 0)
+            {
+                int lane = racer.getRoundPlacement(_round);
+                racer.setHeatNumber(_round + 1, heat);
+                racer.setRoundsLane(_round + 1, lane);
+                _connection.UpdateAsync(racer);
+                return;
+            }
+            int last = (_raceGroups[racer.getHeatNumber(_round) - 1].Count - 1);
+            racer.setHeatNumber(_round + 1, heat - 1);
+            racer.setRoundsLane(_round + 1, last);
+            _connection.UpdateAsync(racer);
+        }
+
+        private void setNewLanes()
+        {
+            foreach(var racer in _racers)
+            {
+                int last = (_raceGroups[racer.getHeatNumber(_round)].Count - 1);
+                if (racer.getRoundPlacement(_round) == 0)
+                {
+                    firstPlaceHandling(racer);
+                }
+                else if(racer.getRoundPlacement(_round) == last)
+                {
+                    lastPlaceHandling(racer);
+                }
+                else
+                {
+                    int lane = racer.getRoundPlacement(_round);
+                    int heat = racer.getHeatNumber(_round);
+                    racer.setRoundsLane(_round + 1, lane);
+                    racer.setHeatNumber(_round + 1, heat);
+                    _connection.UpdateAsync(racer);
+                }
+                
+            }
+            
+        }
+
+        private async void disqualifeRacer(Racer racer)
+        {
+            racer.disqualified = true;
+            await _connection.UpdateAsync(racer);
         }
 
         private void resetStatus()
@@ -147,6 +211,7 @@ namespace NordicApp.Views
             bool done = await DisplayAlert("Check", "Finish viewing results?", "Yes", "No");
             if (done && _round < 4)
             {
+                setNewLanes();
                 resetStatus();
                 //_raceInfo.setRoundStatus(_round);
                 await _connection.UpdateAsync(_raceInfo);

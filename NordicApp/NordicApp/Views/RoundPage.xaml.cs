@@ -29,7 +29,7 @@ namespace NordicApp.Views
         private int heatsize = 5;
         private int prevHeat = 0;
         private int currentHeat = 0;
-        private int placement = 1;
+        private int placement = 0;
 
         public RoundPage(Race race, int Round)
         {
@@ -41,17 +41,16 @@ namespace NordicApp.Views
         {
             _raceInto = race;
             _round = Round;
-            
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
             _racers = await getAllRacers();
             _racers = selectRacers();
             totalNumberOfRacers = _racers.Count;
             totalNumberOfHeats = getMaxNumberOfHeats();
-            Info.Text = "Total number of Heats: "+getMaxNumberOfHeats().ToString();
+            Info.Text = "Total number of Heats: " + totalNumberOfHeats.ToString();
+            heatTracker.Text = "Heat " + (currentHeat + 1).ToString() + " ready to Start.";
             _raceGroups = createRaceGroups();
             OrganizeHeats();
-            heatTracker.Text = "Heat " + (currentHeat+1).ToString() + " ready to Start.";
             ViewHeats.ItemsSource = _raceGroups;
         }
 
@@ -85,7 +84,6 @@ namespace NordicApp.Views
 
         private List<Racer> selectRacers()
         {
-            
             if(_round == 1)
             {
                 var selected = from people in _racers
@@ -97,9 +95,9 @@ namespace NordicApp.Views
             else
             {
                 var selected = from people in _racers
-                           where people.getRoundFinish(_round - 1) && people.disqualified == false
-                           orderby people.getRoundPlacement(_round - 1) ascending
-                           select people;
+                               where people.getRoundFinish(_round - 1) && people.disqualified == false
+                               orderby people.getLaneNumber(_round) ascending 
+                               select people;
                 return new List<Racer>(selected);
             }
         }
@@ -129,6 +127,7 @@ namespace NordicApp.Views
                         heat++;
                     }
                     _racers[i].setHeatNumber(_round, heat);
+                    _racers[i].setRoundsLane(_round, heat);
                     _raceGroups[heat].Add(_racers[i]);
                 }
                 return;
@@ -137,11 +136,8 @@ namespace NordicApp.Views
             {
                 foreach (var racer in _racers)
                 {
-                    int prevHeatNumber = racer.getHeatNumber(_round - 1);
-                    racer.setHeatNumber(_round, prevHeatNumber);
-                    _raceGroups[prevHeatNumber].Add(racer);
+                    _raceGroups[racer.getHeatNumber(_round)].Add(racer);
                 }
-                switchRacers();
                 return;
             }
         }
@@ -150,36 +146,6 @@ namespace NordicApp.Views
         {
             
         }
-
-        private void switchRacers()
-        {
-            int firstPlaceTemp = 0;
-            int lastPlaceTemp = 5;
-            Racer temp;
-            for (int i = 0; i < totalNumberOfHeats; i++)
-            {
-                int index = (_raceGroups[i].Count - 1);
-                if (i + 1 >= totalNumberOfHeats)
-                {
-                    disqualifeRacer(_raceGroups[i][index]);
-                    return;
-                }
-                temp = _raceGroups[i][index];
-                _raceGroups[i][index] = _raceGroups[i + 1][0];
-                _raceGroups[i][index].setHeatNumber(_round, i);
-                _connection.UpdateAsync(_raceGroups[i][index]);
-                _raceGroups[i + 1][0] = temp;
-                _raceGroups[i + 1][0].setHeatNumber(_round, i + 1);
-                _connection.UpdateAsync(_raceGroups[i][0]);
-            }
-        }
-
-        private void disqualifeRacer(Racer racer)
-        {
-            racer.disqualified = true;
-            _connection.UpdateAsync(racer);
-        }
-
 
         private ObservableCollection<RacerGroups> getRaceGroups()
         {
@@ -195,7 +161,6 @@ namespace NordicApp.Views
             {
                 _groups[_racers[i].getHeatNumber(_round)].Add(_racers[i]);
             }
-
             return _groups;
         }
 
@@ -245,11 +210,8 @@ namespace NordicApp.Views
             bool done = await DisplayAlert("Check","Finish with round?", "Yes", "No");
             if (done)
             {
-                //_raceInto.setRoundStatus(_round);
-                await _connection.UpdateAsync(_raceInto);
                 await Navigation.PushAsync(new RoundResultsPage(_raceInto, _round, totalNumberOfHeats));
             }
-            
             return;
         }
 
@@ -287,7 +249,7 @@ namespace NordicApp.Views
                 for (int i = 0; i < _raceGroups[prevHeat].Count; i++)
                 {
                     _raceGroups[prevHeat][i].status = Status.StandyBy.ToString();
-                    _raceGroups[prevHeat][i].roundOneFinish = false;
+                    _raceGroups[prevHeat][i].setRoundFinish(_round,false);
                 }
 
                 await _connection.UpdateAllAsync(_raceGroups[prevHeat]);
@@ -303,17 +265,18 @@ namespace NordicApp.Views
 
         private async void stopBtm_Clicked(object sender, EventArgs e)
         {
-            if (_selectedRacer == null || _selectedRacer.status == Status.StandyBy.ToString())
+            if (_selectedRacer == null || _selectedRacer.status == Status.StandyBy.ToString()
+                || _selectedRacer.status == Status.Finished.ToString())
                 return;
 
-            if(placement > _raceGroups[prevHeat].Count)
+            if(placement >= _raceGroups[prevHeat].Count)
             {
                 placement = 0;
             }
             
             _selectedRacer.status = Status.Finished.ToString();
             _selectedRacer.setPlacement(_round, placement);
-            _selectedRacer.setRoundFinish(_round);
+            _selectedRacer.setRoundFinish(_round, true);
             await _connection.UpdateAsync(_selectedRacer);
             
             _raceGroups = getRaceGroups();

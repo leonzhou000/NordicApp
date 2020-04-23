@@ -94,7 +94,7 @@ namespace NordicApp.Views
             racersList.ItemsSource = _racers;
         }
 
-        private async void checkRacerStatus()
+        private void checkRacerStatus()
         {
             foreach (Racer racer in _racers)
             {
@@ -103,7 +103,7 @@ namespace NordicApp.Views
                     racer.disqualified = true;
                 }
             }
-            await _connection.UpdateAllAsync(_racers);
+            _connection.UpdateAllAsync(_racers);
         }
 
         private void modifyRacer_Clicked(object sender, EventArgs e)
