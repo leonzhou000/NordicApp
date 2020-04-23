@@ -141,6 +141,7 @@ namespace NordicApp.Views
                     racer.setHeatNumber(_round, prevHeatNumber);
                     _raceGroups[prevHeatNumber].Add(racer);
                 }
+                switchRacers();
                 return;
             }
         }
@@ -149,6 +150,36 @@ namespace NordicApp.Views
         {
             
         }
+
+        private void switchRacers()
+        {
+            int firstPlaceTemp = 0;
+            int lastPlaceTemp = 5;
+            Racer temp;
+            for (int i = 0; i < totalNumberOfHeats; i++)
+            {
+                int index = (_raceGroups[i].Count - 1);
+                if (i + 1 >= totalNumberOfHeats)
+                {
+                    disqualifeRacer(_raceGroups[i][index]);
+                    return;
+                }
+                temp = _raceGroups[i][index];
+                _raceGroups[i][index] = _raceGroups[i + 1][0];
+                _raceGroups[i][index].setHeatNumber(_round, i);
+                _connection.UpdateAsync(_raceGroups[i][index]);
+                _raceGroups[i + 1][0] = temp;
+                _raceGroups[i + 1][0].setHeatNumber(_round, i + 1);
+                _connection.UpdateAsync(_raceGroups[i][0]);
+            }
+        }
+
+        private void disqualifeRacer(Racer racer)
+        {
+            racer.disqualified = true;
+            _connection.UpdateAsync(racer);
+        }
+
 
         private ObservableCollection<RacerGroups> getRaceGroups()
         {

@@ -108,6 +108,8 @@ namespace NordicApp.Models
 
         public string status { get; set; }
 
+        public int lane { get; set; }
+
         public int roundOneHeatNumber { get; set; }
 
         public int roundOnePlacement { get; set; }

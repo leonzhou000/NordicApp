@@ -124,28 +124,6 @@ namespace NordicApp.Views
             }
         }
 
-        private void switchRacers()
-        {
-            for (int i = 0; i < _totalHeatNumber; i++)
-            {
-                int index = (_raceGroups[i].Count - 1);
-                if (i + 1 >= _totalHeatNumber)
-                {
-                    disqualifeRacer(_raceGroups[i][index]);
-                    return;
-                }
-                Racer racer = _raceGroups[i][index];
-                _raceGroups[i][index] = _raceGroups[i + 1][0];
-                _raceGroups[i + 1][0] = racer;
-            }
-        }
-
-        private void disqualifeRacer(Racer racer)
-        {
-            racer.disqualified = true;
-            _connection.UpdateAsync(racer);
-        }
-
         private void modifyRacer_Clicked(object sender, EventArgs e)
         {
 
@@ -169,7 +147,6 @@ namespace NordicApp.Views
             bool done = await DisplayAlert("Check", "Finish viewing results?", "Yes", "No");
             if (done && _round < 4)
             {
-                switchRacers();
                 resetStatus();
                 //_raceInfo.setRoundStatus(_round);
                 await _connection.UpdateAsync(_raceInfo);
