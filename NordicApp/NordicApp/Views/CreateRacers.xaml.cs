@@ -120,7 +120,7 @@ namespace NordicApp.Views
                     StartTime = _default,
                     EndTime = _default,
                     ElapsedTime = _default,
-                    roundOneplacement = -1,
+                    roundOnePlacement = -1,
                     roundTwoPlacement = -1,
                     roundThreePlacement = -1,
                     finalsPlacement = -1,

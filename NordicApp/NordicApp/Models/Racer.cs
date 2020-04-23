@@ -104,51 +104,13 @@ namespace NordicApp.Models
             }
         }
 
-        public int getRoundHeatNumber(int round)
-        {
-            switch (round)
-            {
-                case (1):
-                    return roundOneHeatNumber;
-                case (2):
-                    return roundTwoHeatNumber;
-                case (3):
-                    return roundThreeHeatNumber;
-                case (4):
-                    return finalsHeatNumber;
-                default:
-                    return 0;
-            }
-        }
-
-        public void setRecordHeat(int round, int heat)
-        {
-            switch (round)
-            {
-                case (1):
-                    roundOneHeatNumber = heat;
-                    return;
-                case (2):
-                    roundTwoHeatNumber = heat;
-                    return;
-                case (3):
-                    roundThreeHeatNumber = heat;
-                    return;
-                case (4):
-                    finalsHeatNumber = heat;
-                    return;
-                default:
-                    return;
-            }
-        }
-
         public int Ranking { get; set; }
 
         public string status { get; set; }
 
         public int roundOneHeatNumber { get; set; }
 
-        public int roundOneplacement { get; set; }
+        public int roundOnePlacement { get; set; }
 
         public bool roundOneFinish { get; set; }
 
@@ -185,6 +147,121 @@ namespace NordicApp.Models
         public int dataset { get; set; }
 
         public bool Selected { get; set; }
+
+        public void setHeatNumber(int round, int heat)
+        {
+            switch (round)
+            {
+                case (1):
+                    roundOneHeatNumber = heat;
+                    return;
+                case (2):
+                    roundTwoHeatNumber = heat;
+                    return;
+                case (3):
+                    roundThreeHeatNumber = heat;
+                    return;
+                case (4):
+                    finalsHeatNumber = heat;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        public int getHeatNumber(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    return roundOneHeatNumber;
+                case (2):
+                    return roundTwoHeatNumber;
+                case (3):
+                    return roundThreeHeatNumber;
+                case (4):
+                    return finalsHeatNumber;
+                default:
+                    return 0;
+            }
+        }
+
+        public void setPlacement(int round, int placement)
+        {
+            switch (round)
+            {
+                case (1):
+                    roundOnePlacement = placement;
+                    return;
+                case (2):
+                    roundTwoPlacement = placement;
+                    return;
+                case (3):
+                    roundThreePlacement = placement;
+                    return;
+                case (4):
+                    finalsPlacement = placement;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        public int getRoundPlacement(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    return roundOnePlacement;
+                case (2):
+                    return roundTwoPlacement;
+                case (3):
+                    return roundThreePlacement;
+                case (4):
+                    return finalsPlacement;
+                default:
+                    return 0;
+            }
+        }
+
+        public void setRoundFinish(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    roundOneFinish = true;
+                    return;
+                case (2):
+                    roundTwoFinish = true;
+                    return;
+                case (3):
+                    roundThreeFinish = true;
+                    return;
+                case (4):
+                    finalsFinish = true;
+                    return;
+                default:
+                    premlFinished = true;
+                    return;
+            }
+        }
+
+        public bool getRoundFinish(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    return roundOneFinish;
+                case (2):
+                    return roundTwoFinish; 
+                case (3):
+                    return roundThreeFinish;
+                case (4):
+                    return finalsFinish; 
+                default:
+                    return premlFinished;
+            }
+        }
 
         void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

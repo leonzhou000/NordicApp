@@ -57,6 +57,28 @@ namespace NordicApp.Models
 
         public bool Selected { get; set; }
 
+        public void setRoundStatus(int round)
+        {
+            switch (round)
+            {
+                case (1):
+                    roundOne = true;
+                    return;
+                case (2):
+                    roundTwo = true;
+                    return;
+                case (3):
+                    roundThree = true;
+                    return;
+                case (4):
+                    Final = true;
+                    return;
+                default:
+                    Prelimary = true;
+                    return;
+            }
+        }
+
         void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

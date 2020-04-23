@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NordicApp.Data;
@@ -21,6 +20,7 @@ namespace NordicApp.Views
         private SQLiteAsyncConnection _connection;
         private ObservableCollection<Racer> _racers;
         private Race _raceInfo;
+        private int _round = 0;
         private Racer _selectedRacer;
         Stopwatch _stopwatch;
 
@@ -65,7 +65,7 @@ namespace NordicApp.Views
             {
                 var table = await _connection.Table<Racer>().ToListAsync();
                 var racers = from people in table
-                             where people.dataset == _raceInfo.Id && people.disqualified == false
+                             where people.dataset == _raceInfo.Id 
                              orderby people.Number ascending
                              select people;
                 return new ObservableCollection<Racer>(racers);
@@ -183,8 +183,10 @@ namespace NordicApp.Views
             if (choose)
             {
                 _stopwatch.Stop();
+                //_raceInto.setRoundStatus(_round);
+                _round++;
                 await _connection.UpdateAsync(_raceInfo);
-                await Navigation.PushAsync(new RoundPage(_raceInfo, 1));
+                await Navigation.PushAsync(new RoundPage(_raceInfo, _round));
             }
             else
             {
@@ -211,7 +213,7 @@ namespace NordicApp.Views
                 _selectedRacer.ElapsedTime = getElapsedTime(_selectedRacer);
                 UpdateInfo(_selectedRacer);
                 racersList.SelectedItem = null;
-                return; 
+                return;
             }
 
             racersList.SelectedItem = null;
