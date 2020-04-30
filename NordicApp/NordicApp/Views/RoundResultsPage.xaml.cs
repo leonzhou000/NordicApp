@@ -18,6 +18,7 @@ namespace NordicApp.Views
     public partial class RoundResultsPage : ContentPage
     {
         private Race _raceInfo;
+        private Racer _selectedRacer;
         private SQLiteAsyncConnection _connection;
         private List<Racer> _racers;
         private ObservableCollection<RacerGroups> _raceGroups;
@@ -169,6 +170,12 @@ namespace NordicApp.Views
             
         }
 
+        private void resultsViewer_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            _selectedRacer = resultsViewer.SelectedItem as Racer;
+            resultsViewer.SelectedItem = null;
+        }
+
         private async void disqualifeRacer(Racer racer)
         {
             racer.disqualified = true;
@@ -190,7 +197,13 @@ namespace NordicApp.Views
 
         private void modifyRacer_Clicked(object sender, EventArgs e)
         {
+            if (_selectedRacer == null)
+            {
+                DisplayAlert("No racer selected.", "Please choose a racer.", "OK");
+                return;
+            }
 
+            Navigation.PushAsync(new ModifyPage(_selectedRacer));
         }
 
         private async void exitRace_Clicked(object sender, EventArgs e)

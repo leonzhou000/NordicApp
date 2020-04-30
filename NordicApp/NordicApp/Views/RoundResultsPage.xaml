@@ -22,7 +22,7 @@
             <Label x:Name="Info" Grid.Row="0" Grid.ColumnSpan="3"/>
             <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView x:Name="resultsViewer"  SeparatorVisibility="Default" IsVisible="True" 
-              SeparatorColor="Aqua" HasUnevenRows="True" IsGroupingEnabled="True"
+              SeparatorColor="Aqua" HasUnevenRows="True" IsGroupingEnabled="True" ItemTapped="resultsViewer_ItemTapped"
               GroupDisplayBinding="{Binding Title}"
               GroupShortNameBinding="{Binding ShortTitle}">
                     <ListView.ItemTemplate>

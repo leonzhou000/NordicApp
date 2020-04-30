@@ -5,11 +5,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="NordicApp.Views.PrelimResultsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked"  Order="Secondary"/>
+        <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid BackgroundColor="White" Padding="10, 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="Info" Grid.Row="0" Grid.ColumnSpan="3"/>
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
+                <ListView x:Name="resultsViewer" ItemTapped="resultsViewer_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}" FontSize="20"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}" FontSize="20"/>
+                                    <Label Grid.Column="2" Text="{Binding ElapsedTime}" FontSize="20"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+            <Button x:Name="ContinueBtm" Text="Continue" Grid.Row="2" Grid.ColumnSpan="3" BackgroundColor="LightBlue" Clicked="ContinueBtm_Clicked"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

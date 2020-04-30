@@ -20,7 +20,6 @@ namespace NordicApp.Views
         private SQLiteAsyncConnection _connection;
         private ObservableCollection<Racer> _racers;
         private Race _raceInfo;
-        private int _round = 0;
         private Racer _selectedRacer;
         Stopwatch _stopwatch;
 
@@ -108,7 +107,13 @@ namespace NordicApp.Views
 
         private void modifyRacer_Clicked(object sender, EventArgs e)
         {
+            if (_selectedRacer == null)
+            {
+                DisplayAlert("No racer selected.", "Please choose a racer.", "OK");
+                return;
+            }
 
+            Navigation.PushAsync(new ModifyPage(_selectedRacer));
         }
 
         private void Start_time_Clicked(object sender, EventArgs e)
@@ -183,10 +188,8 @@ namespace NordicApp.Views
             if (choose)
             {
                 _stopwatch.Stop();
-                //_raceInto.setRoundStatus(_round);
-                _round++;
                 await _connection.UpdateAsync(_raceInfo);
-                await Navigation.PushAsync(new RoundPage(_raceInfo, _round));
+                await Navigation.PushAsync(new PrelimResultsPage(_raceInfo));
             }
             else
             {

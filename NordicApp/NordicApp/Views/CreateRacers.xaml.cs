@@ -134,7 +134,7 @@ namespace NordicApp.Views
                     roundOneFinish = false,
                     roundTwoFinish = false,
                     roundThreeFinish = false,
-                    finalsFinish = false, 
+                    finalsFinish = false,
                     disqualified = false,
                     Selected = false
                 };
