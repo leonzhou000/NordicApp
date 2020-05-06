@@ -15,11 +15,18 @@
     <ContentPage.Content>
         <Grid BackgroundColor="White" Padding="10, 10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <Label x:Name="Info" Grid.Row="0" Grid.ColumnSpan="3"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="Number" Grid.Row="0" Grid.Column="0" FontSize="14" TextColor="Black"/>
+            <Label Text="Racers" Grid.Row="0" Grid.Column="1" FontSize="14" TextColor="Black"/>
+            <Label Text="Placement" Grid.Row="0" Grid.Column="2" FontSize="14" TextColor="Black"/>
             <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView x:Name="resultsViewer"  SeparatorVisibility="Default" IsVisible="True" 
               SeparatorColor="Aqua" HasUnevenRows="True" IsGroupingEnabled="True" ItemTapped="resultsViewer_ItemTapped"
@@ -36,6 +43,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}" FontSize="20"/>
                                     <Label Grid.Column="1" Text="{Binding Lname}" FontSize="20"/>
+                                    <Label Grid.Column="2" Text="{Binding placement}" FontSize="20"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

@@ -106,6 +106,8 @@ namespace NordicApp.Models
 
         public int Ranking { get; set; }
 
+        public int placement { get; set; }
+
         public string status { get; set; }
 
         public int roundOneHeatNumber { get; set; }

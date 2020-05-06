@@ -87,6 +87,18 @@ namespace NordicApp.Views
             if (_raceList.Count == 0)
                 return true;
 
+            if(gender.SelectedItem == null)
+            {
+                DisplayAlert("Invalid Information", "Please choose a gender.", "Ok");
+                return false;
+            }
+
+            if(ageGroup.SelectedItem == null)
+            {
+                DisplayAlert("Invalid Information", "Please choose an age group.", "Ok");
+                return false;
+            }
+
             for(int i=0; i<_raceList.Count; i++)
             {
                 if(_raceList[i].Number == getBibNumber())
@@ -114,9 +126,11 @@ namespace NordicApp.Views
                     Fname = firstName.Text,
                     Lname = lastName.Text,
                     Number = getBibNumber(),
-                    ageGroup = Group.Text,
+                    gender = gender.SelectedItem.ToString(),
+                    ageGroup = ageGroup.SelectedItem.ToString(),
                     dataset = _raceInfo.Id,
                     Ranking = 0,
+                    placement = 0,
                     status = Status.StandyBy.ToString(),
                     StartTime = _default,
                     EndTime = _default,
@@ -144,7 +158,8 @@ namespace NordicApp.Views
             _raceList = await getRacersList();
             firstName.Text = "";
             lastName.Text = "";
-            Group.Text = "";
+            gender.SelectedItem = null;
+            ageGroup.SelectedItem = null;
             bibNumber.Text = "";
             return;
         }

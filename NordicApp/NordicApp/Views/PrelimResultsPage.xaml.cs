@@ -105,7 +105,7 @@ namespace NordicApp.Views
                 return;
             }
 
-            Navigation.PushAsync(new ModifyPage(_selectedRacer));
+            Navigation.PushAsync(new ModifyPage(_raceInfo, _selectedRacer, _round));
         }
 
         

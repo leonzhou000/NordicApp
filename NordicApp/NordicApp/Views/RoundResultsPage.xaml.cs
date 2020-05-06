@@ -90,6 +90,10 @@ namespace NordicApp.Views
                            where people.getRoundFinish(_round - 1) && people.disqualified == false
                            orderby people.getRoundPlacement(_round) ascending
                            select people;
+            foreach(var racer in selected)
+            {
+                racer.placement = racer.getRoundPlacement(_round)+1;
+            }
             return new List<Racer>(selected);
         }
 
@@ -165,9 +169,7 @@ namespace NordicApp.Views
                     racer.setHeatNumber(_round + 1, heat);
                     _connection.UpdateAsync(racer);
                 }
-                
             }
-            
         }
 
         private void resultsViewer_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -203,7 +205,7 @@ namespace NordicApp.Views
                 return;
             }
 
-            Navigation.PushAsync(new ModifyPage(_selectedRacer));
+            Navigation.PushAsync(new ModifyPage(_raceInfo,_selectedRacer, _round));
         }
 
         private async void exitRace_Clicked(object sender, EventArgs e)
@@ -226,7 +228,7 @@ namespace NordicApp.Views
             {
                 setNewLanes();
                 resetStatus();
-                //_raceInfo.setRoundStatus(_round);
+                _raceInfo.setRoundStatus(_round);
                 await _connection.UpdateAsync(_raceInfo);
                 _round++;
                 await Navigation.PushAsync(new RoundPage(_raceInfo, _round));

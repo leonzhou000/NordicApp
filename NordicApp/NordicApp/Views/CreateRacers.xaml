@@ -20,8 +20,44 @@
                 <Editor x:Name="firstName" Placeholder="ie. (Jon)"/>
                 <Label Text="Last Name" FontSize="15" TextColor="Black"/>
                 <Editor x:Name="lastName" Placeholder="ie. (Hank)"/>
+                <Label Text="Gender" FontSize="15" TextColor="Black"/>
+                <Picker x:Name="gender" Title="Choose One">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Male</x:String>
+                            <x:String>Female</x:String>
+                            <x:String>Other</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
                 <Label Text="Age Group" FontSize="15" TextColor="Black"/>
-                <Editor x:Name="Group" Placeholder=""/>
+                <Picker x:Name="ageGroup" Title="Choose One">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>U6 (ages 4-5)</x:String>
+                            <x:String>U8 (ages 6-7)</x:String>
+                            <x:String>U10 (ages 8-9)</x:String>
+                            <x:String>U12 (ages 10-11)</x:String>
+                            <x:String>U14 (ages 12-13)</x:String>
+                            <x:String>U16 (ages 14-15)</x:String>
+                            <x:String>U18 (ages 16-17)</x:String>
+                            <x:String>U20 (ages 18-19)</x:String>
+                            <x:String>Sr (ages 20-29)</x:String>
+                            <x:String>M1 (ages 30-34)</x:String>
+                            <x:String>M2 (ages 35-39)</x:String>
+                            <x:String>M3 (ages 40-44)</x:String>
+                            <x:String>M4 (ages 45-49)</x:String>
+                            <x:String>M5 (ages 50-54)</x:String>
+                            <x:String>M6 (ages 55-59)</x:String>
+                            <x:String>M7 (ages 60-64)</x:String>
+                            <x:String>M8 (ages 65-69)</x:String>
+                            <x:String>M9 (ages 70-74)</x:String>
+                            <x:String>M10 (ages 75-79)</x:String>
+                            <x:String>M11 (ages 80-84)</x:String>
+                            <x:String>M12 (ages 85-125)</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
                 <Label Text="Bib Number" FontSize="15" TextColor="Black"/>
                 <Editor x:Name="bibNumber" Placeholder="ie. (35)" Keyboard="Numeric"/>
             </StackLayout>

@@ -113,7 +113,7 @@ namespace NordicApp.Views
                 return;
             }
 
-            Navigation.PushAsync(new ModifyPage(_selectedRacer));
+            Navigation.PushAsync(new ModifyPage(_raceInfo, _selectedRacer, 0));
         }
 
         private void Start_time_Clicked(object sender, EventArgs e)
@@ -209,7 +209,7 @@ namespace NordicApp.Views
                 return;
             }
 
-            if ( _selectedRacer.premlStarted && _selectedRacer.premlFinished == false && _stopwatch.IsRunning)
+            if ( _selectedRacer.premlStarted && _stopwatch.IsRunning)
             {
                 _selectedRacer.EndTime = RecordTime();
                 _selectedRacer.premlFinished = true;
