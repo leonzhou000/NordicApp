@@ -57,6 +57,25 @@ namespace NordicApp.Models
 
         public bool Selected { get; set; }
 
+        public bool getRoundStatus(int round)
+        {
+            switch (round)
+            {
+                case (0):
+                    return Prelimary;
+                case (1):
+                    return roundOne;
+                case (2):
+                    return roundTwo;
+                case (3):
+                    return roundThree;
+                case (4):
+                    return Final;
+                default:
+                    return true;
+            }
+        }
+
         public void setRoundStatus(int round)
         {
             switch (round)

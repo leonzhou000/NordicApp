@@ -21,6 +21,7 @@ namespace NordicApp.Views
         private SQLiteAsyncConnection _connection;
         private ObservableCollection<Race> _races;
         private Race _selectedRace;
+        private int _round;
 
         public MainPage()
         {
@@ -32,30 +33,6 @@ namespace NordicApp.Views
         {
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
-        }
-
-        private async void CheckRaceStatus(Race race)
-        {
-            if (race.Prelimary == false)
-            {
-                await Navigation.PushAsync(new PrelimaryPage(race));
-            }
-            else if( race.roundOne == false)
-            {
-                await Navigation.PushAsync(new RoundPage(race, 1));
-            }
-            else if (race.roundTwo == false)
-            {
-                await Navigation.PushAsync(new RoundPage(race, 2));
-            }
-            else if (race.roundThree == false)
-            {
-                await Navigation.PushAsync(new RoundPage(race, 3));
-            }
-            else if (race.Final == false)
-            {
-                await Navigation.PushAsync(new RoundPage(race, 4));
-            }
         }
 
         protected override async void OnAppearing()
@@ -87,9 +64,85 @@ namespace NordicApp.Views
             }
             catch
             {
-                await DisplayAlert("Error","Cannot find table.","OK");
+                await DisplayAlert("Error", "Cannot find table.", "OK");
             }
             return null;
+        }
+
+        private int getRoundNumber(Race race)
+        {
+            for (int i=0; i<5;i++)
+            {
+                if(race.getRoundStatus(i) == false)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private bool checkRaceStatus(Race race)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (race.getRoundStatus(i) == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private async void ContinueRace(Race race)
+        {
+            int round = getRoundNumber(race);
+            var choose = await DisplayAlert("Alert", "Your race is incomplete.\nWould you like to continue race?", "Yes", "No");
+            if (choose)
+            {
+                navigateToPage(round, race);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private async void navigateToPage(int round, Race race)
+        {
+            if(round == 0)
+            {
+                await Navigation.PushAsync(new PrelimaryPage(race));
+            }
+            else
+            {
+                await Navigation.PushAsync(new RoundPage(race, round));
+            }
+        }
+
+        private async void viewResults()
+        {
+            var choose = await DisplayAlert("Alert", "Would you like to the result", "Yes", "No");
+            if (choose)
+            {
+                await Navigation.PushAsync(new ResultsPage(_selectedRace));
+            }
+            else
+            {
+                return;
+            }   
+        }
+
+        private async void raceRecord_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            _selectedRace = raceRecord.SelectedItem as Race;
+            if (checkRaceStatus(_selectedRace))
+            {
+                viewResults();
+            }
+            else
+            {
+                ContinueRace(_selectedRace);
+            }
         }
 
         private async void addRace_Clicked(object sender, EventArgs e)
@@ -113,20 +166,6 @@ namespace NordicApp.Views
             catch
             {
                 await DisplayAlert("Error","Fail to delete race.","OK");
-                return;
-            }
-        }
-
-        private async void raceRecord_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            _selectedRace = raceRecord.SelectedItem as Race;
-            var choose = await DisplayAlert("Alert","Your race is incomplete.\nWould you like to continue race?","Yes", "No");
-            if (choose)
-            {
-                CheckRaceStatus(_selectedRace);
-            }
-            else
-            {
                 return;
             }
         }

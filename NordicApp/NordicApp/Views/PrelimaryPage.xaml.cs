@@ -21,6 +21,7 @@ namespace NordicApp.Views
         private ObservableCollection<Racer> _racers;
         private Race _raceInfo;
         private Racer _selectedRacer;
+        private int rank;
         Stopwatch _stopwatch;
 
         public PrelimaryPage(Race race)
@@ -44,6 +45,7 @@ namespace NordicApp.Views
             {
                 await _connection.CreateTableAsync<Racer>();
                 _racers = await getRacers();
+                rank = _racers.Count;
                 racersList.ItemsSource = _racers;
             }
             catch
@@ -100,6 +102,8 @@ namespace NordicApp.Views
                 if (racer.premlFinished == false)
                 {
                     racer.disqualified = true;
+                    racer.Ranking = rank;
+                    rank--;
                 }
             }
             _connection.UpdateAllAsync(_racers);

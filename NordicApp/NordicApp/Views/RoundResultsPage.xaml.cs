@@ -23,6 +23,7 @@ namespace NordicApp.Views
         private List<Racer> _racers;
         private ObservableCollection<RacerGroups> _raceGroups;
         private int _round;
+        private int rank;
         private int _totalHeatNumber;
 
         public RoundResultsPage(Race race, int round, int totalNumberOfHeats)
@@ -41,6 +42,7 @@ namespace NordicApp.Views
             _raceGroups = createRacerGroups();
             _racers = await getRacers();
             _racers = selectRacers();
+            rank = _racers.Count;
             OrganizeRacers();
             resultsViewer.ItemsSource = _raceGroups;
         }
@@ -197,6 +199,20 @@ namespace NordicApp.Views
             }
         }
 
+        private void setRanks()
+        {
+            int tempRank = 1;
+            for(int i =0; i < _raceGroups.Count; i++)
+            {
+                for(int j = 0; j < _raceGroups[i].Count; j++)
+                {
+                    _raceGroups[i][j].Ranking = tempRank;
+                    tempRank++;
+                }
+                _connection.UpdateAllAsync(_raceGroups[i]);
+            }
+        }
+
         private void modifyRacer_Clicked(object sender, EventArgs e)
         {
             if (_selectedRacer == null)
@@ -226,6 +242,7 @@ namespace NordicApp.Views
             bool done = await DisplayAlert("Check", "Finish viewing results?", "Yes", "No");
             if (done && _round < 4)
             {
+                setRanks();
                 setNewLanes();
                 resetStatus();
                 _raceInfo.setRoundStatus(_round);
@@ -235,7 +252,10 @@ namespace NordicApp.Views
             }
             else if (done && _round == 4)
             {
-                Application.Current.MainPage = new NavigationPage(new MainPage());
+                setRanks();
+                _raceInfo.setRoundStatus(_round);
+                await _connection.UpdateAsync(_raceInfo);
+                await Navigation.PushAsync(new ResultsPage(_raceInfo));
             }
             return;
         }

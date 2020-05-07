@@ -21,6 +21,7 @@ namespace NordicApp.Views
         private Race _raceInfo;
         private ObservableCollection<Racer> _racers;
         private int _round;
+        private int rank;
 
         public PrelimResultsPage(Race race)
         {
@@ -36,6 +37,7 @@ namespace NordicApp.Views
             try { _connection = DependencyService.Get<ISQLiteDb>().GetConnection(); }
             catch { await DisplayAlert("Error", "SQL Table Connection", "OK"); }
             _racers = await getRacers();
+            rank = _racers.Count;
             resultsViewer.ItemsSource = _racers;
         }
 
@@ -43,6 +45,7 @@ namespace NordicApp.Views
         {
             return true;
         }
+
         private async Task<ObservableCollection<Racer>> getRacers()
         {
             try
@@ -50,7 +53,6 @@ namespace NordicApp.Views
                 var table = await _connection.Table<Racer>().ToListAsync();
                 var racers = from people in table
                                where people.getRoundFinish(_round) && people.dataset == _raceInfo.Id 
-                               && people.disqualified == false
                                orderby people.ElapsedTime ascending
                                select people;
                 return new ObservableCollection<Racer>(racers);
@@ -107,7 +109,5 @@ namespace NordicApp.Views
 
             Navigation.PushAsync(new ModifyPage(_raceInfo, _selectedRacer, _round));
         }
-
-        
     }
 }
