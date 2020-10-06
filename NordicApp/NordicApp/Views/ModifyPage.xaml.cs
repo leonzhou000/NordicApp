@@ -67,7 +67,7 @@ namespace NordicApp.Views
             firstName.Text = racer.Fname;
             lastName.Text = racer.Lname;
             bibNumber.Text = racer.Number.ToString();
-            placement.Text = racer.getRoundPlacement(_round).ToString();
+            placement.Text = (racer.getRoundPlacement(_round)+1).ToString();
 
             if(String.IsNullOrEmpty(racer.ageGroup) || String.IsNullOrEmpty(racer.gender))
             {
@@ -114,45 +114,16 @@ namespace NordicApp.Views
             return true;
         }
 
-        private bool checkForExistingRacer()
-        {
-            if (_raceList.Count == 0)
-                return true;
-
-            if (gender.SelectedItem == null)
-            {
-                DisplayAlert("Invalid Information", "Please choose a gender.", "Ok");
-                return false;
-            }
-
-            if (ageGroup.SelectedItem == null)
-            {
-                DisplayAlert("Invalid Information", "Please choose an age group.", "Ok");
-                return false;
-            }
-
-            for (int i = 0; i < _raceList.Count; i++)
-            {
-                if (_raceList[i].Number == getBibNumber())
-                {
-                    DisplayAlert("Dupicate Racer", "You have already use this bib number.\nPlease enter another bib number", "Ok");
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         private async void changeRacerInfo(Racer racer)
         {
-            if(infoChecker() && checkForExistingRacer())
+            if(infoChecker())
             {
                 racer.Fname = firstName.Text;
                 racer.Lname = lastName.Text;
                 racer.gender = gender.SelectedItem.ToString();
                 racer.ageGroup = ageGroup.SelectedItem.ToString();
                 racer.Number = getBibNumber();
-                racer.setPlacement(_round, getPlacement());
+                racer.setPlacement(_round, getPlacement()-1);
                 await _connection.UpdateAsync(racer);
                 await DisplayAlert("Success.","Racer has been updated","Ok");
             }
