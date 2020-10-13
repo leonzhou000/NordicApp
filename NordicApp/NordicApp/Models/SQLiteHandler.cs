@@ -11,6 +11,5 @@ namespace NordicApp.Models
     public class SQLiteHandler
     {
         private SQLiteAsyncConnection _connection;
-
     }
 }
