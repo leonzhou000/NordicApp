@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="NordicApp.Views.PrelimaryPage"
+             Title="Prelimary Round"
+             Padding="10,20,10,10"
+             BackgroundColor="LightBlue"
+             NavigationPage.HasBackButton="false"> 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="addRacer" IconImageSource="add.png" Text="New Racer" Clicked="addRacer_Clicked" Order="Primary"/>
+        <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked" Order="Secondary"/>
+        <ToolbarItem x:Name="deleteRacer" IconImageSource="minus.png" Text="Remove Race" Clicked="deleteRacer_Clicked" Order="Primary"/>
+        <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid BackgroundColor="White" Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Label Text="Racers" Grid.Column="0" Grid.Row="0" FontSize="18" TextColor="Black"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand"  
+                         Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
+                <Label Text="Time:" FontSize="18" TextColor="Black"/>
+                <Label x:Name="timer" Text="" FontSize="18" TextColor="Black"/>
+            </StackLayout>
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
+                <ListView x:Name="racersList" ItemTapped="racer_View_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}" FontSize="20"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}" FontSize="20"/>
+                                    <Label Grid.Column="2" Text="{Binding StartTime, StringFormat='Start {0:hh\\:mm\\:ss}'}" FontSize="20"/>
+                                    <Label Grid.Column="3" Text="{Binding EndTime, StringFormat='End {0:hh\\:mm\\:ss}'}" FontSize="20"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+            <Button x:Name="Start_time" Grid.Row="2" Grid.Column="0" Text="Start"  BackgroundColor="LightGreen"
+                    FontSize="15" FontAttributes="Bold" Clicked="Start_time_Clicked"/>
+            <Button x:Name="Reset_time" Grid.Row="2" Grid.Column="1" Text="Reset" BackgroundColor="LightGray"
+                    FontSize="15" FontAttributes="Bold" Clicked="Reset_time_Clicked"/>
+            <Button x:Name="Stop_time" Grid.Row="2" Grid.Column="2" Text="Stop" BackgroundColor="LightPink"
+                    FontSize="15" FontAttributes="Bold" Clicked="Stop_time_Clicked"/>
+            <Button x:Name="Finshed" Grid.Row="3" Grid.ColumnSpan="3" Text="Done" BackgroundColor="LightBlue"
+                    FontSize="15" FontAttributes="Bold" Clicked="Finshed_Clicked"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

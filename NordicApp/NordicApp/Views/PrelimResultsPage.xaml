@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             Padding="10,20,10,10"
+             BackgroundColor="LightBlue"
+             NavigationPage.HasBackButton="false"
+             Title="Prelimary Round Results"
+             x:Class="NordicApp.Views.PrelimResultsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="modifyRacer" IconImageSource="" Text="Modify Racer" Clicked="modifyRacer_Clicked"  Order="Secondary"/>
+        <ToolbarItem x:Name="exitRace" IconImageSource="" Text="Exit Race" Clicked="exitRace_Clicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid BackgroundColor="White" Padding="10, 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="Number" Grid.Row="0" Grid.Column="0" FontSize="14" TextColor="Black"/>
+            <Label Text="Racers" Grid.Row="0" Grid.Column="1" FontSize="14" TextColor="Black"/>
+            <Label Text="Times" Grid.Row="0" Grid.Column="2" FontSize="14" TextColor="Black"/>
+            <ScrollView Grid.Row="1" Grid.ColumnSpan="3">
+                <ListView x:Name="resultsViewer" ItemTapped="resultsViewer_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding Number, StringFormat='#{0:N0}'}" FontSize="20"/>
+                                    <Label Grid.Column="1" Text="{Binding Lname}" FontSize="20"/>
+                                    <Label Grid.Column="2" Text="{Binding ElapsedTime}" FontSize="20"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+            <Button x:Name="ContinueBtm" Text="Continue" Grid.Row="2" Grid.ColumnSpan="3" BackgroundColor="LightBlue" Clicked="ContinueBtm_Clicked"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
